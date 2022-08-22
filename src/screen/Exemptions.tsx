@@ -15,14 +15,18 @@ function Details({ title = "", desc = "" }) {
     </div>
   );
 }
+
 interface Props {
   onChange: (arg: number) => void;
 }
-function IncomeTab(props: Props) {
+
+function Exemptions(props: Props) {
   const [fieldValues, setFieldValues] = useState<any>({});
   const [totalSalary, setTotalSalary] = useState<number>(0);
   const [totalIncome, setTotalIncome] = useState<number>(0);
+
   const { onChange } = props;
+
   const changeMonthly = (field: string, value: boolean) => {
     setFieldValues((prev: any) => ({
       ...prev,
@@ -70,8 +74,8 @@ function IncomeTab(props: Props) {
   return (
     <div className="App">
       <div className="max-w-xl mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
-        <div className="flex font-bold text-xs text-white uppercase bg-blue-600 ">
-          <div className="py-3 px-6">Income</div>
+        <div className="flex font-bold text-xs text-white uppercase bg-orange-600 ">
+          <div className="py-3 px-6">Exemptions & Deductions</div>
           <div className="ml-auto text-right py-3 px-6 pr-8">
             {currencyFormat(totalIncome)}
           </div>
@@ -151,4 +155,4 @@ function IncomeTab(props: Props) {
   );
 }
 
-export default IncomeTab;
+export default Exemptions;
