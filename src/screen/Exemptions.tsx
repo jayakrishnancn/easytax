@@ -79,14 +79,18 @@ function Exemptions(props: Props) {
                   <TableCell>
                     <Input
                       max={max}
-                      value={fieldValues[title]}
                       defaultValue={fieldValues[title]}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        let value = Number(e.target.value) || 0;
-                        if (value < min || value > max) {
+                      isValid={(newValue: number) => {
+                        newValue = Number(newValue) || 0;
+                        if (newValue < min || newValue > max) {
                           return false;
                         }
+                        return true;
+                      }}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        let value = Number(e.target.value) || 0;
                         changeField(title, value);
+                        return true;
                       }}
                     />
                   </TableCell>

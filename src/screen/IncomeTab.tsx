@@ -119,9 +119,7 @@ function IncomeTab(props: Props) {
                         <TableCell>
                           <Input
                             defaultValue={fieldValues[field]?.value}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e: any) => {
                               changeField(field, e.target.value);
                             }}
                           />
