@@ -7,6 +7,10 @@ import IncomeTab from "./screen/IncomeTab";
 function App() {
   const [tab, setTab] = useState<number>(0);
   const [income, setIncomeChange] = useState<number>(0);
+  const [salary, setSalary] = useState({
+    baseAmount: 0,
+    hraAmount: 0,
+  });
   const [exemptions, setExemptionsChange] = useState<number>(0);
 
   const activeClass =
@@ -16,9 +20,8 @@ function App() {
 
   return (
     <div className="App">
-      {income} - {exemptions}, {income - exemptions}
       <CompareRegime income={income} exemptions={exemptions} />
-      <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+      <div className=" max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
         <ul
           className="flex flex-wrap -mb-px text-sm font-medium text-center"
           id="myTab"
@@ -59,9 +62,17 @@ function App() {
           </li>
         </ul>
       </div>
-      <div className="flex justify-around align-top ">
-        <IncomeTab onChange={setIncomeChange} />
-        <Exemptions onChange={setExemptionsChange} />
+      <div className=" max-w-xl mx-auto flex justify-around align-top ">
+        {tab === 0 && (
+          <IncomeTab setSalary={setSalary} onChange={setIncomeChange} />
+        )}
+        {tab === 1 && (
+          <Exemptions
+            baseAmount={salary.baseAmount}
+            hraAmount={salary.hraAmount}
+            onChange={setExemptionsChange}
+          />
+        )}
       </div>
     </div>
   );

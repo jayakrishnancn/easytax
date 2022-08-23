@@ -15,7 +15,6 @@ function calculateTaxOldRegime(income: number) {
     const slabMax = Math.min(income, slab.till);
     const taxInSlab = ((slabMax - slab.from) * slab.taxPercent) / 100;
     tax += taxInSlab;
-    console.log(income, tax, slab, taxInSlab);
   }
   const cess = (tax * 4) / 100;
   return tax + cess;

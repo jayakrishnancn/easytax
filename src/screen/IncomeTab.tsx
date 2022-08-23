@@ -3,7 +3,11 @@ import FieldRow from "../components/FieldRow";
 import Input from "../components/Input";
 import TableCell from "../components/TableCell";
 import Toggle from "../components/Toggle";
-import { INCOME_FIELDS, SALARY_FIELDS } from "../constants/incomeFields";
+import {
+  INCOME_FIELDS,
+  SalaryFieldsEnum,
+  SALARY_FIELDS,
+} from "../constants/incomeFields";
 import { sum } from "../util/arrayUtil";
 import { currencyFormat } from "../util/currencyFormat";
 import { getLocalData, setLocalData } from "../util/localStorage";
@@ -16,8 +20,14 @@ function Details({ title = "", desc = "" }) {
     </div>
   );
 }
+type CustomSalaryObj = {
+  baseAmount: number;
+  hraAmount: number;
+};
+
 interface Props {
   onChange: (arg: number) => void;
+  setSalary: (arg: CustomSalaryObj) => void;
 }
 enum STORE_KEYS {
   Fields = "exemptionsFields",
@@ -29,7 +39,7 @@ function IncomeTab(props: Props) {
   );
   const [totalSalary, setTotalSalary] = useState<number>(0);
   const [totalIncome, setTotalIncome] = useState<number>(0);
-  const { onChange } = props;
+  const { onChange, setSalary } = props;
   const changeMonthly = (field: string, value: boolean) => {
     setFieldValues((prev: any) => ({
       ...prev,
@@ -45,12 +55,19 @@ function IncomeTab(props: Props) {
   };
 
   useEffect(() => {
+    let baseAmount = 0,
+      hraAmount = 0;
     const totalSalary = sum(
       SALARY_FIELDS.map((field) => {
         if (fieldValues[field]) {
           let value = Number(fieldValues[field].value) ?? 0;
           if (fieldValues[field].monthly) {
             value = value * 12;
+          }
+          if (field === SalaryFieldsEnum.BasicDA) {
+            baseAmount = value;
+          } else if (field === SalaryFieldsEnum.HRA) {
+            hraAmount = value;
           }
           return value;
         }
@@ -73,10 +90,14 @@ function IncomeTab(props: Props) {
     setTotalIncome(totalIncome + totalSalary);
     onChange(totalIncome + totalSalary);
     setLocalData(STORE_KEYS.Fields, fieldValues);
-  }, [fieldValues, onChange]);
+    setSalary({
+      baseAmount,
+      hraAmount,
+    });
+  }, [fieldValues, onChange, setSalary]);
 
   return (
-    <div className="flex-1 p-3">
+    <div className="flex-1 px-3">
       <div className="mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
         <div className="flex font-bold text-xs text-white uppercase bg-blue-600 ">
           <div className="py-3 px-6">Income</div>
@@ -86,7 +107,12 @@ function IncomeTab(props: Props) {
         </div>
       </div>
       <div className="border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500">
+        <table
+          style={{
+            tableLayout: "fixed",
+          }}
+          className="w-full text-sm text-left text-gray-500"
+        >
           <tbody>
             <FieldRow>
               <TableCell bold colSpan={3}>
@@ -117,7 +143,7 @@ function IncomeTab(props: Props) {
                         </TableCell>
                         <TableCell>
                           <Input
-                            defaultValue={fieldValues[field]?.value}
+                            defaultValue={fieldValues[field]?.value ?? ""}
                             onChange={(e: any) => {
                               changeField(field, e.target.value);
                             }}

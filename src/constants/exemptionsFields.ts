@@ -8,6 +8,7 @@ type ExemptionsEnum = {
 };
 
 export const STANDARD_DEDUCTION = 50_000;
+export const HRA = { title: "HRA" };
 
 export const EXEMPTIONS: ExemptionsEnum[] = [
   { title: "80C", details: "LIC,PPF,EPF,NPS", max: 1_50_000 },
@@ -20,7 +21,7 @@ export const EXEMPTIONS: ExemptionsEnum[] = [
     isDisabled: true,
     value: STANDARD_DEDUCTION,
   },
-  { title: "HRA" },
+
   { title: "80D", details: "Health Insurance Premia" },
   { title: "professional Tax" },
   { title: "80DDB", details: "Medical Treatment Expense" },
