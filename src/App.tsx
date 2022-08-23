@@ -5,9 +5,9 @@ import Exemptions from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
 
 function App() {
-  const [tab, setTab] = useState(0);
-  const [income, setIncomeChange] = useState(0);
-  const [exemptions, setExemptionsChange] = useState(0);
+  const [tab, setTab] = useState<number>(0);
+  const [income, setIncomeChange] = useState<number>(0);
+  const [exemptions, setExemptionsChange] = useState<number>(0);
 
   const activeClass =
     " text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500";
@@ -16,6 +16,7 @@ function App() {
 
   return (
     <div className="App">
+      {income} - {exemptions}, {income - exemptions}
       <CompareRegime income={income} exemptions={exemptions} />
       <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul

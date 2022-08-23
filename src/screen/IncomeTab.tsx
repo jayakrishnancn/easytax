@@ -3,7 +3,7 @@ import FieldRow from "../components/FieldRow";
 import Input from "../components/Input";
 import TableCell from "../components/TableCell";
 import Toggle from "../components/Toggle";
-import { INCOME_FIELDS, SALARY_FIELDS } from "../enum/incomeFields";
+import { INCOME_FIELDS, SALARY_FIELDS } from "../constants/incomeFields";
 import { sum } from "../util/arrayUtil";
 import { currencyFormat } from "../util/currencyFormat";
 import { getLocalData, setLocalData } from "../util/localStorage";
@@ -71,8 +71,7 @@ function IncomeTab(props: Props) {
     );
     setTotalSalary(totalSalary);
     setTotalIncome(totalIncome + totalSalary);
-    onChange(totalIncome);
-
+    onChange(totalIncome + totalSalary);
     setLocalData(STORE_KEYS.Fields, fieldValues);
   }, [fieldValues, onChange]);
 

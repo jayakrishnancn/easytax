@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FieldRow from "../components/FieldRow";
 import Input from "../components/Input";
 import TableCell from "../components/TableCell";
-import { EXEMPTIONS } from "../enum/exemptionsFields";
+import { EXEMPTIONS, STANDARD_DEDUCTION } from "../constants/exemptionsFields";
 import { sum } from "../util/arrayUtil";
 import { currencyFormat } from "../util/currencyFormat";
 import { getLocalData, setLocalData } from "../util/localStorage";
@@ -11,7 +11,7 @@ function Details({ title = "", desc = "" }) {
   return (
     <div>
       <div>{title}</div>
-      <div>{desc}</div>
+      <div className="text-gray-500 font-normal">{desc}</div>
     </div>
   );
 }
@@ -30,6 +30,14 @@ function Exemptions(props: Props) {
   const [totalExemptions, setTotalExemptions] = useState<number>(0);
 
   const { onChange } = props;
+  const localFieldValues = useMemo(() => getLocalData(STORE_KEYS.Fields), []);
+
+  EXEMPTIONS.sort((a, b) => {
+    const aValue = (Number(localFieldValues[a.title]) || a.value) ?? 0;
+    const bValue = (Number(localFieldValues[b.title]) || b.value) ?? 0;
+    return bValue - aValue;
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const changeField = (field: string, value: number) => {
     setFieldValues((prev: any) => ({
@@ -39,7 +47,8 @@ function Exemptions(props: Props) {
   };
 
   useEffect(() => {
-    const totalExemptions = sum(Object.values(fieldValues));
+    const totalExemptions =
+      sum(Object.values(fieldValues)) + STANDARD_DEDUCTION;
 
     setTotalExemptions(totalExemptions);
     onChange(totalExemptions);
@@ -69,34 +78,44 @@ function Exemptions(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {EXEMPTIONS.map(({ min = 0, max = Infinity, title }) => {
-              return (
-                <FieldRow key={title}>
-                  <TableCell bold>
-                    <Details title={title} />
-                  </TableCell>
-                  <TableCell>{max ?? "Infinity"}</TableCell>
-                  <TableCell>
-                    <Input
-                      max={max}
-                      defaultValue={fieldValues[title]}
-                      isValid={(newValue: number) => {
-                        newValue = Number(newValue) || 0;
-                        if (newValue < min || newValue > max) {
-                          return false;
-                        }
-                        return true;
-                      }}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        let value = Number(e.target.value) || 0;
-                        changeField(title, value);
-                        return true;
-                      }}
-                    />
-                  </TableCell>
-                </FieldRow>
-              );
-            })}
+            {EXEMPTIONS.map(
+              ({
+                details,
+                min = 0,
+                max = Infinity,
+                title,
+                isDisabled,
+                value,
+              }) => {
+                return (
+                  <FieldRow key={title}>
+                    <TableCell bold>
+                      <Details title={title} desc={details} />
+                    </TableCell>
+                    <TableCell>{max ?? "Infinity"}</TableCell>
+                    <TableCell>
+                      <Input
+                        defaultValue={fieldValues[title]}
+                        disabled={isDisabled}
+                        value={fieldValues[title] ?? value}
+                        isValid={(newValue: number) => {
+                          newValue = Number(newValue) || 0;
+                          if (newValue < min || newValue > max) {
+                            return false;
+                          }
+                          return true;
+                        }}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          let value = Number(e.target.value) || 0;
+                          changeField(title, value);
+                          return true;
+                        }}
+                      />
+                    </TableCell>
+                  </FieldRow>
+                );
+              }
+            )}
           </tbody>
         </table>
       </div>
