@@ -58,9 +58,10 @@ function App() {
           </li>
         </ul>
       </div>
-
-      {tab === 0 && <IncomeTab onChange={setIncomeChange} />}
-      {tab === 1 && <Exemptions onChange={setExemptionsChange} />}
+      <div className="flex justify-around align-top ">
+        <IncomeTab onChange={setIncomeChange} />
+        <Exemptions onChange={setExemptionsChange} />
+      </div>
     </div>
   );
 }

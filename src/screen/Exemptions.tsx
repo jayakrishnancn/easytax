@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import FieldRow from "../components/FieldRow";
 import Input from "../components/Input";
-import TableCell from "../components/TableCell/indx";
-import Toggle from "../components/Toggle";
-import { INCOME_FIELDS, SALARY_FIELDS } from "../enum/fields";
+import TableCell from "../components/TableCell";
+import { EXEMPTIONS } from "../enum/exemptionsFields";
 import { sum } from "../util/arrayUtil";
 import { currencyFormat } from "../util/currencyFormat";
+import { getLocalData, setLocalData } from "../util/localStorage";
 
 function Details({ title = "", desc = "" }) {
   return (
@@ -19,138 +19,83 @@ function Details({ title = "", desc = "" }) {
 interface Props {
   onChange: (arg: number) => void;
 }
+enum STORE_KEYS {
+  Fields = "exemptionsFields",
+}
 
 function Exemptions(props: Props) {
-  const [fieldValues, setFieldValues] = useState<any>({});
-  const [totalSalary, setTotalSalary] = useState<number>(0);
-  const [totalIncome, setTotalIncome] = useState<number>(0);
+  const [fieldValues, setFieldValues] = useState<any>(
+    getLocalData(STORE_KEYS.Fields)
+  );
+  const [totalExemptions, setTotalExemptions] = useState<number>(0);
 
   const { onChange } = props;
 
-  const changeMonthly = (field: string, value: boolean) => {
+  const changeField = (field: string, value: number) => {
     setFieldValues((prev: any) => ({
       ...prev,
-      [field]: { ...prev[field], monthly: value },
-    }));
-  };
-
-  const changeField = (field: string, value: string) => {
-    setFieldValues((prev: any) => ({
-      ...prev,
-      [field]: { ...prev[field], value },
+      [field]: value,
     }));
   };
 
   useEffect(() => {
-    const totalSalary = sum(
-      SALARY_FIELDS.map((field) => {
-        if (fieldValues[field]) {
-          let value = Number(fieldValues[field].value) ?? 0;
-          if (fieldValues[field].monthly) {
-            value = value * 12;
-          }
-          return value;
-        }
-        return 0;
-      })
-    );
-    const totalIncome = sum(
-      INCOME_FIELDS.map((field) => {
-        if (fieldValues[field]) {
-          let value = Number(fieldValues[field].value) ?? 0;
-          if (fieldValues[field].monthly) {
-            value = value * 12;
-          }
-          return value;
-        }
-        return 0;
-      })
-    );
-    setTotalSalary(totalSalary);
-    setTotalIncome(totalIncome + totalSalary);
-    onChange(totalIncome);
+    const totalExemptions = sum(Object.values(fieldValues));
+
+    setTotalExemptions(totalExemptions);
+    onChange(totalExemptions);
+
+    setLocalData(STORE_KEYS.Fields, fieldValues);
   }, [fieldValues, onChange]);
 
   return (
-    <div className="App">
-      <div className="max-w-xl mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div className="flex-1 p-3">
+      <div className="mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
         <div className="flex font-bold text-xs text-white uppercase bg-orange-600 ">
           <div className="py-3 px-6">Exemptions & Deductions</div>
           <div className="ml-auto text-right py-3 px-6 pr-8">
-            {currencyFormat(totalIncome)}
+            {currencyFormat(totalExemptions)}
           </div>
         </div>
       </div>
-      <div className="max-w-xl border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg">
+      <div className="w-full border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500">
-          <tbody>
-            <FieldRow>
-              <TableCell bold colSpan={3}>
-                <Details title={"Salary"} />
-              </TableCell>
-              <TableCell>
-                <div className="text-right">{currencyFormat(totalSalary)}</div>
-              </TableCell>
-            </FieldRow>
+          <thead>
             <tr>
-              <td></td>
-              <td colSpan={3}>
-                <table className="w-full text-sm text-left text-gray-500">
-                  <tbody>
-                    {SALARY_FIELDS.map((field) => (
-                      <FieldRow key={field}>
-                        <TableCell>
-                          <Details title={field} />
-                        </TableCell>
-                        <TableCell>
-                          <Toggle
-                            label="Monthly"
-                            isEnabled={fieldValues[field]?.monthly}
-                            onChange={(value: boolean) =>
-                              changeMonthly(field, value)
-                            }
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Input
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                              changeField(field, e.target.value);
-                            }}
-                          />
-                        </TableCell>
-                      </FieldRow>
-                    ))}
-                  </tbody>
-                </table>
-              </td>
+              <th className="py-4 px-6 text-gray-900 bg-gray-200">Section</th>
+              <th className="py-4 px-6 text-gray-900 bg-gray-200">
+                Max Amount
+              </th>
+              <th className="py-4 px-6 text-gray-900 bg-gray-200">Amount</th>
             </tr>
-            {INCOME_FIELDS.map((field) => (
-              <FieldRow key={field}>
-                <TableCell bold colSpan={2}>
-                  <Details title={field} />
-                </TableCell>
-                <TableCell>
-                  <Toggle
-                    label="Monthly"
-                    isEnabled={fieldValues[field]?.monthly}
-                    onChange={(value: boolean) => changeMonthly(field, value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Input
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      changeField(field, e.target.value);
-                    }}
-                  />
-                </TableCell>
-              </FieldRow>
-            ))}
+          </thead>
+          <tbody>
+            {EXEMPTIONS.map(({ min = 0, max = Infinity, title }) => {
+              return (
+                <FieldRow key={title}>
+                  <TableCell bold>
+                    <Details title={title} />
+                  </TableCell>
+                  <TableCell>{max ?? "Infinity"}</TableCell>
+                  <TableCell>
+                    <Input
+                      max={max}
+                      value={fieldValues[title]}
+                      defaultValue={fieldValues[title]}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        let value = Number(e.target.value) || 0;
+                        if (value < min || value > max) {
+                          return false;
+                        }
+                        changeField(title, value);
+                      }}
+                    />
+                  </TableCell>
+                </FieldRow>
+              );
+            })}
           </tbody>
         </table>
       </div>
-      <div className="max-w-lg border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg"></div>
     </div>
   );
 }

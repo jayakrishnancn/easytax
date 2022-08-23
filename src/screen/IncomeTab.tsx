@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import FieldRow from "../components/FieldRow";
 import Input from "../components/Input";
-import TableCell from "../components/TableCell/indx";
+import TableCell from "../components/TableCell";
 import Toggle from "../components/Toggle";
-import { INCOME_FIELDS, SALARY_FIELDS } from "../enum/fields";
+import { INCOME_FIELDS, SALARY_FIELDS } from "../enum/incomeFields";
 import { sum } from "../util/arrayUtil";
 import { currencyFormat } from "../util/currencyFormat";
+import { getLocalData, setLocalData } from "../util/localStorage";
 
 function Details({ title = "", desc = "" }) {
   return (
@@ -18,8 +19,14 @@ function Details({ title = "", desc = "" }) {
 interface Props {
   onChange: (arg: number) => void;
 }
+enum STORE_KEYS {
+  Fields = "exemptionsFields",
+}
+
 function IncomeTab(props: Props) {
-  const [fieldValues, setFieldValues] = useState<any>({});
+  const [fieldValues, setFieldValues] = useState<any>(
+    getLocalData(STORE_KEYS.Fields)
+  );
   const [totalSalary, setTotalSalary] = useState<number>(0);
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const { onChange } = props;
@@ -65,11 +72,13 @@ function IncomeTab(props: Props) {
     setTotalSalary(totalSalary);
     setTotalIncome(totalIncome + totalSalary);
     onChange(totalIncome);
+
+    setLocalData(STORE_KEYS.Fields, fieldValues);
   }, [fieldValues, onChange]);
 
   return (
-    <div className="App">
-      <div className="max-w-xl mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div className="flex-1 p-3">
+      <div className="mx-auto mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
         <div className="flex font-bold text-xs text-white uppercase bg-blue-600 ">
           <div className="py-3 px-6">Income</div>
           <div className="ml-auto text-right py-3 px-6 pr-8">
@@ -77,7 +86,7 @@ function IncomeTab(props: Props) {
           </div>
         </div>
       </div>
-      <div className="max-w-xl border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg">
+      <div className="border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500">
           <tbody>
             <FieldRow>
@@ -109,6 +118,7 @@ function IncomeTab(props: Props) {
                         </TableCell>
                         <TableCell>
                           <Input
+                            defaultValue={fieldValues[field]?.value}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
@@ -146,7 +156,6 @@ function IncomeTab(props: Props) {
           </tbody>
         </table>
       </div>
-      <div className="max-w-lg border mx-auto mt-2 overflow-x-auto relative shadow-md sm:rounded-lg"></div>
     </div>
   );
 }
