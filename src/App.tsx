@@ -20,6 +20,10 @@ function App() {
 
   return (
     <div className="App">
+      <h1 className="mt-2 mb-5 font-extrabold tracking-tight leading-none text-gray-900 text-4xl">
+        Simple Tax
+      </h1>
+
       <Compare />
       <div className=" max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
         <ul
