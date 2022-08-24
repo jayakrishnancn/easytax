@@ -1,6 +1,11 @@
 {
   "name": "web-app",
   "version": "0.1.0",
+  "author": {
+    "email": "jayakrishnan.cn+git@gmail.com",
+    "name": "jayakrishnan",
+    "url": "https://github.com/jayakrishnancn"
+  },
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
