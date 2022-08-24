@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.income-table {
+  @apply text-gray-700;
+}
+.income-table tr {
+  @apply border-b dark:bg-gray-800 dark:border-gray-700;
+}
+.income-table td {
+  @apply p-3;
+}

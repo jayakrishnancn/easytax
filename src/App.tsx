@@ -1,40 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { STANDARD_DEDUCTION } from "./constants/exemptionsFields";
-import { HRAFieldsEnum, STORE_KEYS } from "./enums/exemptions";
-import CompareRegime from "./screen/CompareRegime";
-import Exemptions from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
-import { sum } from "./util/arrayUtil";
-import HRA from "./util/calculations/hra";
-import { getLocalData } from "./util/localStorage";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
-  const [income, setIncomeChange] = useState<number>(0);
-  const [salary, setSalary] = useState({
-    baseAmount: 0,
-    hraAmount: 0,
-  });
-  const localFieldValues = useMemo(() => getLocalData(STORE_KEYS.Fields), []);
 
-  const [exemptions, setExemptionsChange] = useState<number>(0);
-
-  useEffect(() => {
-    let total =
-      sum(Object.values(localFieldValues)) +
-      STANDARD_DEDUCTION +
-      new HRA(
-        salary.baseAmount,
-        salary.hraAmount,
-        localFieldValues[HRAFieldsEnum.rentPaid] * 12 || 0,
-        !!localFieldValues[HRAFieldsEnum.isMetroCity]
-      ).calcaulteMaxHRA();
-
-    setExemptionsChange(total);
-  }, [localFieldValues, salary.baseAmount, salary.hraAmount]);
-
-  console.log(localFieldValues, "local");
   const activeClass =
     " text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500";
   const inActiveClass =
@@ -42,7 +12,6 @@ function App() {
 
   return (
     <div className="App">
-      <CompareRegime income={income} exemptions={exemptions} />
       <div className=" max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
         <ul
           className="flex flex-wrap -mb-px text-sm font-medium text-center"
@@ -84,18 +53,9 @@ function App() {
           </li>
         </ul>
       </div>
-      <div className=" max-w-xl mx-auto flex justify-around align-top ">
-        {tab === 0 && (
-          <IncomeTab setSalary={setSalary} onChange={setIncomeChange} />
-        )}
-        {tab === 1 && (
-          <Exemptions
-            defaultValues={localFieldValues}
-            baseAmount={salary.baseAmount}
-            hraAmount={salary.hraAmount}
-            onChange={setExemptionsChange}
-          />
-        )}
+      <div className="mt-2 max-w-xl mx-auto flex justify-around align-top ">
+        {tab === 0 && <IncomeTab />}
+        {tab === 1 && <div>Two</div>}
       </div>
     </div>
   );
