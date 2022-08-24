@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import "./App.css";
 import IncomeTab from "./screen/IncomeTab";
+import { getIncomeData } from "./services/income";
+import { reset } from "./store/reducers/incomeReducer";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
+  const dispatch = useDispatch();
 
-  const activeClass =
-    " text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500";
-  const inActiveClass =
-    "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700";
+  useEffect(() => {
+    dispatch(reset(getIncomeData()));
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -22,11 +25,9 @@ function App() {
           <li className="mr-2" role="presentation">
             <button
               className={`inline-block p-4 rounded-t-lg border-b-2 ${
-                tab === 0 ? activeClass : inActiveClass
+                tab === 0 ? "active-tab" : "inactive-tab"
               }`}
               onClick={() => setTab(0)}
-              id="profile-tab"
-              data-tabs-target="#profile"
               type="button"
               role="tab"
               aria-controls="profile"
@@ -38,11 +39,9 @@ function App() {
           <li className="mr-2" role="presentation">
             <button
               className={`inline-block p-4 rounded-t-lg border-b-2 ${
-                tab === 1 ? activeClass : inActiveClass
+                tab === 1 ? "active-tab" : "inactive-tab"
               }`}
               onClick={() => setTab(1)}
-              id="dashboard-tab"
-              data-tabs-target="#dashboard"
               type="button"
               role="tab"
               aria-controls="dashboard"

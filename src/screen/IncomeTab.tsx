@@ -47,7 +47,7 @@ function IncomeTab() {
       </thead>
       <tbody>
         {Object.values(IncomeFieldsEnum).map((field) => (
-          <tr>
+          <tr key={field}>
             <td> {field}</td>
             <td>
               <Toggle

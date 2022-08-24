@@ -1,4 +1,4 @@
-import { IncomeFieldsEnum } from "../../enum/incomeFields";
+import { IncomeFieldsEnum } from "../enum/incomeFields";
 
 export type Income = {
   value: number | string | boolean;

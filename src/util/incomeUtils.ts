@@ -1,4 +1,4 @@
-import { IncomeFields } from "../components/type/income";
+import { IncomeFields } from "../type/income";
 
 export const calculateTotalIncome = (fields: IncomeFields) => {
   return Object.values(fields).reduce((acc, income) => {
