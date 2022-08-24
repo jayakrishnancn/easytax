@@ -9,7 +9,8 @@ import { RootState } from "../store";
 import { changeExemptionField } from "../store/reducers/exemptionsReducer";
 import HRA from "../util/calculations/hra";
 import { currencyFormat } from "../util/currencyFormat";
-import { calculateTotalExemptions } from "../util/exemptionUtils";
+import { calculateTotalExemptions } from "../util/calculations/exemptionUtils";
+import Toggle from "../components/Toggle";
 
 function ExemptionsTab() {
   const [intiallySorted, setIntiallySorted] = useState(false);
@@ -93,12 +94,27 @@ function ExemptionsTab() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Rent per month</td>
+        <tr className="bg-gray-200">
+          <td>HRA</td>
           <td>
             <ProgressBar
               current={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
               max={hra.optimalRent()}
+            />
+          </td>
+          <td className="text-center">
+            {currencyFormat(hra.calcaulteMaxHRA())}
+          </td>
+        </tr>
+        <tr className="bg-gray-200">
+          <td>Rent per month</td>
+          <td>
+            <Toggle
+              isEnabled={exemptions[ExemptionFieldsEnum["Is metro city"]]}
+              onChange={(value) => {
+                changeField(ExemptionFieldsEnum["Is metro city"], value);
+              }}
+              label="Metro city?"
             />
           </td>
           <td>
@@ -135,12 +151,7 @@ function ExemptionsTab() {
           </td>
           <td>{currencyFormat(hra.HRAReceived)}</td>
         </tr>
-        <tr className="bg-gray-200">
-          <td colSpan={2} className="text-right">
-            Total HRA
-          </td>
-          <td>{currencyFormat(hra.calcaulteMaxHRA())}</td>
-        </tr>
+
         {EXEMPTIONS.map(({ title, value, max = Infinity, isDisabled }) => (
           <tr key={title}>
             <td>{title}</td>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
+import Compare from "./screen/Compare";
 import ExemptionsTab from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
 import { getExemptionData } from "./services/exemptions";
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div className="App">
+      <Compare />
       <div className=" max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
         <ul
           className="flex flex-wrap -mb-px text-sm font-medium text-center"

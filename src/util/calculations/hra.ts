@@ -39,7 +39,6 @@ class HRA {
     );
   }
   optimalRent(): number {
-    console.log(this.getMinAC());
     return (this.getMinAC() + 0.1 * this.baseAndDA) / 12;
   }
 }

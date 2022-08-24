@@ -18,7 +18,6 @@ export const exemptionsSlice = createSlice({
         ...state,
         [field]: value,
       };
-      console.log(newState);
       saveExemptionData(newState);
       return newState;
     },
