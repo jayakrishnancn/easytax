@@ -19,7 +19,7 @@ function Input(props: Props) {
     if (isNaN(value)) {
       return false;
     }
-    if (value >= min || value <= max) {
+    if (value >= min && value <= max) {
       return true;
     }
     return false;

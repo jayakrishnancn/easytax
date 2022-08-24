@@ -51,8 +51,8 @@ function ExemptionsTab() {
   useEffect(() => {
     if (!intiallySorted) {
       EXEMPTIONS.sort((a, b) => {
-        let bvalue = Number(exemptions[b.title]) || 0;
-        let aValue = Number(exemptions[a.title]) || 0;
+        let bvalue = Number(exemptions[b.title]) || Number(b.value) || 0;
+        let aValue = Number(exemptions[a.title]) || Number(a.value) || 0;
         return bvalue - aValue;
       });
       setIntiallySorted(true);
@@ -94,7 +94,7 @@ function ExemptionsTab() {
       </thead>
       <tbody>
         <tr>
-          <td>HRA - Rent per month</td>
+          <td>Rent per month</td>
           <td>
             <ProgressBar
               current={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
@@ -110,7 +110,7 @@ function ExemptionsTab() {
             />
           </td>
         </tr>
-        <tr>
+        <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
             <WithTick
               if={hra.current === 0}
@@ -119,7 +119,7 @@ function ExemptionsTab() {
           </td>
           <td>{currencyFormat(hra.A_10perBaseAndDA)}</td>
         </tr>
-        <tr>
+        <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
             <WithTick
               if={hra.current === 1}
@@ -129,15 +129,15 @@ function ExemptionsTab() {
           </td>
           <td>{currencyFormat(hra.B_50PerBaseAndDA)}</td>
         </tr>
-        <tr>
+        <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
             <WithTick if={hra.current === 2} text="HRA Received" />
           </td>
           <td>{currencyFormat(hra.HRAReceived)}</td>
         </tr>
-        <tr>
+        <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
-            Total
+            Total HRA
           </td>
           <td>{currencyFormat(hra.calcaulteMaxHRA())}</td>
         </tr>
@@ -157,6 +157,7 @@ function ExemptionsTab() {
                 onChange={(value) => {
                   changeField(title, value);
                 }}
+                max={max}
               />
             </td>
           </tr>
