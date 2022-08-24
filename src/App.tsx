@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
+import { STANDARD_DEDUCTION } from "./constants/exemptionsFields";
+import { HRAFieldsEnum, STORE_KEYS } from "./enums/exemptions";
 import CompareRegime from "./screen/CompareRegime";
 import Exemptions from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
+import { sum } from "./util/arrayUtil";
+import HRA from "./util/calculations/hra";
+import { getLocalData } from "./util/localStorage";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
@@ -11,8 +16,25 @@ function App() {
     baseAmount: 0,
     hraAmount: 0,
   });
+  const localFieldValues = useMemo(() => getLocalData(STORE_KEYS.Fields), []);
+
   const [exemptions, setExemptionsChange] = useState<number>(0);
 
+  useEffect(() => {
+    let total =
+      sum(Object.values(localFieldValues)) +
+      STANDARD_DEDUCTION +
+      new HRA(
+        salary.baseAmount,
+        salary.hraAmount,
+        localFieldValues[HRAFieldsEnum.rentPaid] * 12 || 0,
+        !!localFieldValues[HRAFieldsEnum.isMetroCity]
+      ).calcaulteMaxHRA();
+
+    setExemptionsChange(total);
+  }, [localFieldValues, salary.baseAmount, salary.hraAmount]);
+
+  console.log(localFieldValues, "local");
   const activeClass =
     " text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500";
   const inActiveClass =
@@ -68,6 +90,7 @@ function App() {
         )}
         {tab === 1 && (
           <Exemptions
+            defaultValues={localFieldValues}
             baseAmount={salary.baseAmount}
             hraAmount={salary.hraAmount}
             onChange={setExemptionsChange}

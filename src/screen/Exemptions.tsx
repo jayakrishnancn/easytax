@@ -5,6 +5,7 @@ import ProgressBar from "../components/Progressbar";
 import TableCell from "../components/TableCell";
 import Toggle from "../components/Toggle";
 import { EXEMPTIONS, STANDARD_DEDUCTION } from "../constants/exemptionsFields";
+import { HRAFieldsEnum, STORE_KEYS } from "../enums/exemptions";
 import { sum } from "../util/arrayUtil";
 import HRA from "../util/calculations/hra";
 import { currencyFormat } from "../util/currencyFormat";
@@ -23,26 +24,19 @@ interface Props {
   onChange: (arg: number) => void;
   baseAmount?: number;
   hraAmount?: number;
-}
-enum STORE_KEYS {
-  Fields = "exemptionsFields",
-}
-enum HRAFieldsEnum {
-  isMetroCity = "isMetroCity",
-  rentPaid = "rentPaid",
+  defaultValues: any;
 }
 function Exemptions(props: Props) {
-  const { onChange } = props;
-  const localFieldValues = useMemo(() => getLocalData(STORE_KEYS.Fields), []);
+  const { onChange, defaultValues } = props;
 
   const [fieldValues, setFieldValues] = useState<any>(
     getLocalData(STORE_KEYS.Fields)
   );
   const [isMetroCity, setIsMetroCity] = useState<boolean>(
-    localFieldValues[HRAFieldsEnum.isMetroCity] || false
+    defaultValues[HRAFieldsEnum.isMetroCity] || false
   );
   const [rentPaid, setRentPaid] = useState<number>(
-    localFieldValues[HRAFieldsEnum.rentPaid] || 0
+    defaultValues[HRAFieldsEnum.rentPaid] || 0
   );
 
   const { baseAmount = 0, hraAmount = 0 } = props;
@@ -59,8 +53,8 @@ function Exemptions(props: Props) {
   const [totalExemptions, setTotalExemptions] = useState<number>(0);
 
   EXEMPTIONS.sort((a, b) => {
-    const aValue = Number(localFieldValues[a.title]) || Number(a.value) || 0;
-    const bValue = Number(localFieldValues[b.title]) || Number(b.value) || 0;
+    const aValue = Number(defaultValues[a.title]) || Number(a.value) || 0;
+    const bValue = Number(defaultValues[b.title]) || Number(b.value) || 0;
     return bValue - aValue;
   });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,7 +132,7 @@ function Exemptions(props: Props) {
                     }}
                     onChange={(e) => {
                       const tmpRent = Number(e.target.value);
-                      changeField("rentPaid", tmpRent || 0);
+                      changeField(HRAFieldsEnum.rentPaid, tmpRent || 0);
                       setRentPaid(tmpRent || 0);
                     }}
                   />
