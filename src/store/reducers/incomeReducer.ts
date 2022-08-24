@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialDefaultState, saveIncomeData } from "../../services/income";
-import { ChangeIncomeFieldAction, InitializeAction } from "./type";
+import { ChangeIncomeFieldAction, InitializeIncomeAction } from "./type";
 
 export const incomeSlice = createSlice({
   name: "income",
   initialState: initialDefaultState,
   reducers: {
-    reset(state, action: InitializeAction) {
+    resetIncome(state, action: InitializeIncomeAction) {
       return { ...action.payload };
     },
     changeIncomeField: (state, action: ChangeIncomeFieldAction) => {
@@ -26,6 +26,6 @@ export const incomeSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { changeIncomeField, reset } = incomeSlice.actions;
+export const { changeIncomeField, resetIncome } = incomeSlice.actions;
 
 export default incomeSlice.reducer;

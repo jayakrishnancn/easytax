@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
+import ExemptionsTab from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
+import { getExemptionData } from "./services/exemptions";
 import { getIncomeData } from "./services/income";
-import { reset } from "./store/reducers/incomeReducer";
+import { resetExemptions } from "./store/reducers/exemptionsReducer";
+import { resetIncome } from "./store/reducers/incomeReducer";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(reset(getIncomeData()));
+    dispatch(resetIncome(getIncomeData()));
+    dispatch(resetExemptions(getExemptionData()));
   }, [dispatch]);
 
   return (
@@ -54,7 +58,7 @@ function App() {
       </div>
       <div className="mt-2 max-w-xl mx-auto flex justify-around align-top ">
         {tab === 0 && <IncomeTab />}
-        {tab === 1 && <div>Two</div>}
+        {tab === 1 && <ExemptionsTab />}
       </div>
     </div>
   );

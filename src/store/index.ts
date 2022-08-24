@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import exemptionsReducer from "./reducers/exemptionsReducer";
 import incomeReducer from "./reducers/incomeReducer";
 
 const store = configureStore({
   reducer: {
     income: incomeReducer,
+    exemptions: exemptionsReducer,
   },
 });
 

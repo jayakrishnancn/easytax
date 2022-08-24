@@ -1,7 +1,9 @@
-import { IncomeFields } from "../../type/income";
 import { IncomeFieldsEnum } from "../../enum/incomeFields";
+import { initialDefaultState } from "../../services/exemptions";
+import { IncomeFields } from "../../type/income";
+import { ExemptionFieldsEnum } from "./../../enum/exemptionFields";
 
-export type InitializeAction = {
+export type InitializeIncomeAction = {
   payload: IncomeFields;
   type: string;
 };
@@ -11,6 +13,20 @@ export type ChangeIncomeFieldAction = {
     field: IncomeFieldsEnum;
     value?: number | string | boolean;
     isMonthly?: boolean;
+  };
+  type: string;
+};
+export type ExemptionsType = typeof initialDefaultState;
+
+export type InitializeExemptionAction = {
+  payload: ExemptionsType;
+  type: string;
+};
+
+export type ChangeExemptionFieldAction = {
+  payload: {
+    field: ExemptionFieldsEnum;
+    value?: number | string | boolean;
   };
   type: string;
 };
