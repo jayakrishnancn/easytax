@@ -35,6 +35,19 @@ function ExemptionsTab() {
       })
     );
   };
+  interface DescriptionProps {
+    title: string;
+    details?: string;
+  }
+  function Description(props: DescriptionProps) {
+    const { title, details } = props;
+    return (
+      <div>
+        <div>{title}</div>
+        <div className="text-gray-400 text-xs">{details}</div>
+      </div>
+    );
+  }
 
   function WithTick(props: any) {
     return (
@@ -152,27 +165,31 @@ function ExemptionsTab() {
           <td>{currencyFormat(hra.HRAReceived)}</td>
         </tr>
 
-        {EXEMPTIONS.map(({ title, value, max = Infinity, isDisabled }) => (
-          <tr key={title}>
-            <td>{title}</td>
-            <td>
-              <ProgressBar
-                current={value ?? Number(exemptions[title])}
-                max={max}
-              />
-            </td>
-            <td>
-              <Input
-                disabled={isDisabled}
-                value={value ?? getFieldValue(title)}
-                onChange={(value) => {
-                  changeField(title, value);
-                }}
-                max={max}
-              />
-            </td>
-          </tr>
-        ))}
+        {EXEMPTIONS.map(
+          ({ title, value, max = Infinity, isDisabled, details }) => (
+            <tr key={title}>
+              <td>
+                <Description title={title} details={details} />
+              </td>
+              <td>
+                <ProgressBar
+                  current={value ?? Number(exemptions[title])}
+                  max={max}
+                />
+              </td>
+              <td>
+                <Input
+                  disabled={isDisabled}
+                  value={value ?? getFieldValue(title)}
+                  onChange={(value) => {
+                    changeField(title, value);
+                  }}
+                  max={max}
+                />
+              </td>
+            </tr>
+          )
+        )}
       </tbody>
     </table>
   );
