@@ -1,3 +1,5 @@
+import { currencyFormat } from "../../util/currencyFormat";
+
 interface Props {
   max: number;
   current: number;
@@ -21,8 +23,9 @@ function ProgressBar(props: Props) {
   if (current !== 0) {
     trackColor = "bg-gray-100";
   }
-  current = Math.round(current);
-  max = Math.round(max);
+
+  const _max =
+    !isNaN(max) && max !== Infinity ? currencyFormat(Math.floor(max)) : max;
   return (
     <div className="w-full mt-2 relative  mb-4">
       <div className={"rounded-full h-1.5  dark:bg-gray-700 " + trackColor}>
@@ -34,8 +37,8 @@ function ProgressBar(props: Props) {
         ></div>
       </div>
       <div className="text-sm absolute w-full font-thin flex justify-between">
-        <span>0</span>
-        <span>{max || Infinity}</span>
+        <span>₹0</span>
+        <span>{_max}</span>
       </div>
     </div>
   );

@@ -28,12 +28,21 @@ export const EXEMPTIONS: Exemption[] = [
     max: 50_000,
   },
 
-  { title: ExemptionFieldsEnum["80D"], details: "Health Insurance Premia" },
-  { title: ExemptionFieldsEnum["Professional_Tax"] },
-  { title: ExemptionFieldsEnum["80DDB"], details: "Medical Treatment Expense" },
+  {
+    title: ExemptionFieldsEnum["80D"],
+    details: "Health Insurance Premia",
+    max: 1_00_000,
+  },
+  { title: ExemptionFieldsEnum["Professional_Tax"], max: 2_500 },
+  {
+    title: ExemptionFieldsEnum["80DDB"],
+    details: "Medical Treatment Expense",
+    max: 1_00_000,
+  },
   {
     title: ExemptionFieldsEnum["Section_24_B_"],
     details: "Interest on Home Loan",
+    max: 2_00_000,
   },
   {
     title: ExemptionFieldsEnum["80CCD_2_"],
@@ -42,15 +51,18 @@ export const EXEMPTIONS: Exemption[] = [
   {
     title: ExemptionFieldsEnum["80EEA"],
     details: "Interest on loan for Affordable Housing",
+    max: 1_50_000,
   },
-  { title: ExemptionFieldsEnum["Food_Coupons"] },
+  { title: ExemptionFieldsEnum["Food_Coupons"], max: 26_400 },
   {
     title: ExemptionFieldsEnum["80U"],
     details: "Deduction for Disabled Individuals",
+    max: 1_25_000,
   },
   {
     title: ExemptionFieldsEnum["80EEB"],
     details: "Interest on loan for purchase of electric vehicle",
+    max: 1_50_000,
   },
   { title: ExemptionFieldsEnum["80E"], details: "Interest on education loan" },
   { title: ExemptionFieldsEnum["80G"], details: "Donations" },

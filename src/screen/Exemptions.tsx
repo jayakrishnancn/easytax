@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../components/Input";
 import ProgressBar from "../components/Progressbar";
 import Tick from "../components/Tick";
+import Toggle from "../components/Toggle";
 import { EXEMPTIONS } from "../constants/exemptionFields";
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { RootState } from "../store";
 import { changeExemptionField } from "../store/reducers/exemptionsReducer";
+import { calculateTotalExemptions } from "../util/calculations/exemptionUtils";
 import HRA from "../util/calculations/hra";
 import { currencyFormat } from "../util/currencyFormat";
-import { calculateTotalExemptions } from "../util/calculations/exemptionUtils";
-import Toggle from "../components/Toggle";
 
 function ExemptionsTab() {
   const [intiallySorted, setIntiallySorted] = useState(false);
@@ -98,6 +98,21 @@ function ExemptionsTab() {
 
   const isMetroCity = !!exemptions[ExemptionFieldsEnum["Is metro city"]];
 
+  const getMaximumValue = useCallback(
+    (title: ExemptionFieldsEnum): number | null => {
+      if (title === ExemptionFieldsEnum["80CCD_2_"]) {
+        const salaryBasicDA = income["Salary (Basic + DA)"];
+        return Math.floor(
+          0.1 *
+            ((Number(salaryBasicDA?.value) || 0) *
+              (salaryBasicDA.isMonthly ? 12 : 1))
+        );
+      }
+      return null;
+    },
+    [income]
+  );
+
   return (
     <table className="income-table w-full table-fixed text-left">
       <thead>
@@ -174,7 +189,7 @@ function ExemptionsTab() {
               <td>
                 <ProgressBar
                   current={value ?? Number(exemptions[title])}
-                  max={max}
+                  max={getMaximumValue(title) ?? max}
                 />
               </td>
               <td>
@@ -184,7 +199,7 @@ function ExemptionsTab() {
                   onChange={(value) => {
                     changeField(title, value);
                   }}
-                  max={max}
+                  max={getMaximumValue(title) ?? max}
                 />
               </td>
             </tr>
