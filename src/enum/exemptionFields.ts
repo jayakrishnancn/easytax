@@ -5,7 +5,7 @@ export enum ExemptionFieldsEnum {
   "80DD" = "80DD",
   "80CCD_1B_" = "80CCD(1B)",
   "80D" = "80D",
-  professional_Tax = "professional Tax",
+  Professional_Tax = "Professional Tax",
   "80DDB" = "80DDB",
   Section_24_B_ = "Section 24(B)",
   "80CCD_2_" = "80CCD(2)",

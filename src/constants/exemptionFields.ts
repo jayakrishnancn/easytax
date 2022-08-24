@@ -29,7 +29,7 @@ export const EXEMPTIONS: Exemption[] = [
   },
 
   { title: ExemptionFieldsEnum["80D"], details: "Health Insurance Premia" },
-  { title: ExemptionFieldsEnum["professional_Tax"] },
+  { title: ExemptionFieldsEnum["Professional_Tax"] },
   { title: ExemptionFieldsEnum["80DDB"], details: "Medical Treatment Expense" },
   {
     title: ExemptionFieldsEnum["Section_24_B_"],

@@ -5,7 +5,7 @@ export const initialDefaultState = {
   [ExemptionFieldsEnum["80DD"]]: 0,
   [ExemptionFieldsEnum["80CCD_1B_"]]: 0,
   [ExemptionFieldsEnum["80D"]]: 0,
-  [ExemptionFieldsEnum["professional_Tax"]]: 0,
+  [ExemptionFieldsEnum["Professional_Tax"]]: 0,
   [ExemptionFieldsEnum["80DDB"]]: 0,
   [ExemptionFieldsEnum["Section_24_B_"]]: 0,
   [ExemptionFieldsEnum["80CCD_2_"]]: 0,
