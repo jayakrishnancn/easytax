@@ -18,19 +18,23 @@ function ProgressBar(props: Props) {
     colorClass = "bg-red-600";
   }
   let trackColor = "bg-red-200";
-  if (current != 0) {
+  if (current !== 0) {
     trackColor = "bg-gray-100";
   }
   return (
-    <div
-      className={
-        "w-full mt-2 rounded-full h-1.5 mb-4 dark:bg-gray-700 " + trackColor
-      }
-    >
-      <div
-        className={"h-1.5 rounded-full dark:bg-gray-300 " + colorClass}
-        style={{ width }}
-      ></div>
+    <div className="w-full mt-2 relative  mb-4">
+      <div className={"rounded-full h-1.5  dark:bg-gray-700 " + trackColor}>
+        <div
+          className={
+            "transition-all h-1.5 rounded-full dark:bg-gray-300 " + colorClass
+          }
+          style={{ width }}
+        ></div>
+      </div>
+      <div className="text-sm absolute w-full font-thin flex justify-between">
+        <span>0</span>
+        <span>{max || Infinity}</span>
+      </div>
     </div>
   );
 }

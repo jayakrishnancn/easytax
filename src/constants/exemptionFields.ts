@@ -1,16 +1,17 @@
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { Exemption } from "./../type/exemptions";
 export const STANDARD_DEDUCTION = {
-  title: "Standard Deduction",
+  title: ExemptionFieldsEnum["Standard Deduction"],
   min: 50_000,
   max: 50_000,
   isDisabled: true,
   value: 50_000,
 };
 
-export const HRA = { title: "HRA" };
+export const HRA = { title: ExemptionFieldsEnum["HRA"] };
 
 export const EXEMPTIONS: Exemption[] = [
+  STANDARD_DEDUCTION,
   {
     title: ExemptionFieldsEnum["80C"],
     details: "LIC,PPF,EPF,NPS",

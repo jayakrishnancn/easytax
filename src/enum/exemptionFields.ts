@@ -1,4 +1,6 @@
 export enum ExemptionFieldsEnum {
+  "Standard Deduction" = "Standard Deduction",
+  "HRA" = "HRA",
   "80C" = "80C",
   "80DD" = "80DD",
   "80CCD_1B_" = "80CCD(1B)",

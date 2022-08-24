@@ -3,10 +3,17 @@ interface Props {
   value: number | string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 }
 
 function Input(props: Props) {
-  const { onChange = () => {}, min = 0, max = Infinity, ...rest } = props;
+  const {
+    onChange = () => {},
+    min = 0,
+    max = Infinity,
+    disabled = false,
+    ...rest
+  } = props;
 
   const validField = (value: number) => {
     if (isNaN(value)) {
@@ -24,6 +31,7 @@ function Input(props: Props) {
       autoComplete="off"
       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
       placeholder="0"
+      disabled={disabled}
       {...rest}
       onChange={(e) => {
         const value = Number(e.target.value);

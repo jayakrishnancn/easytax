@@ -18,6 +18,8 @@ export const initialDefaultState = {
   [ExemptionFieldsEnum["80GGA"]]: 0,
   [ExemptionFieldsEnum["80GGC"]]: 0,
   [ExemptionFieldsEnum["Other_Exemptions"]]: 0,
+  [ExemptionFieldsEnum["Standard Deduction"]]: 50_000,
+  [ExemptionFieldsEnum["HRA"]]: 0,
 };
 
 enum STORE_KEYS {

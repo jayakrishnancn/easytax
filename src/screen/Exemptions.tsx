@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../components/Input";
 import ProgressBar from "../components/Progressbar";
@@ -10,6 +10,7 @@ import { currencyFormat } from "../util/currencyFormat";
 import { calculateTotalExemptions } from "../util/exemptionUtils";
 
 function ExemptionsTab() {
+  const [intiallySorted, setIntiallySorted] = useState(false);
   const exemptions = useSelector((state: RootState) => state.exemptions);
   const dispatch = useDispatch();
   const getFieldValue = (field: ExemptionFieldsEnum) => {
@@ -31,6 +32,17 @@ function ExemptionsTab() {
     [exemptions]
   );
 
+  useEffect(() => {
+    if (!intiallySorted) {
+      EXEMPTIONS.sort((a, b) => {
+        let bvalue = Number(exemptions[b.title]) || 0;
+        let aValue = Number(exemptions[a.title]) || 0;
+        return bvalue - aValue;
+      });
+      setIntiallySorted(true);
+    }
+  }, [exemptions, intiallySorted]);
+
   return (
     <table className="income-table w-full table-fixed text-left">
       <thead>
@@ -40,14 +52,15 @@ function ExemptionsTab() {
         </tr>
       </thead>
       <tbody>
-        {EXEMPTIONS.map(({ title, value }) => (
+        {EXEMPTIONS.map(({ title, value, max = Infinity, isDisabled }) => (
           <tr key={title}>
             <td>{title}</td>
             <td>
-              <ProgressBar current={30} max={100} />
+              <ProgressBar current={value ?? exemptions[title]} max={max} />
             </td>
             <td>
               <Input
+                disabled={isDisabled}
                 value={value ?? getFieldValue(title)}
                 onChange={(value) => {
                   changeField(title, value);
