@@ -38,7 +38,7 @@ function IncomeTab() {
   );
 
   return (
-    <table className="income-table w-full table-fixed text-left">
+    <table className="income-table w-full table-fixed mt-4 mb-8 text-left">
       <thead>
         <tr className="bg-blue-600 text-white">
           <td colSpan={2}>Total Income</td>
