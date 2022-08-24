@@ -1,7 +1,25 @@
+import { STANDARD_DEDUCTION } from "../constants/exemptionFields";
+import { ExemptionFieldsEnum } from "./../enum/exemptionFields";
 import { ExemptionsType } from "./../store/reducers/type";
 
 export const calculateTotalExemptions = (fields: ExemptionsType) => {
-  return Object.values(fields).reduce((acc, income) => {
-    return acc + (Number(income) || 0);
-  }, 0);
+  return (
+    Object.keys(fields).reduce((acc: number, key: any) => {
+      if (
+        [
+          ExemptionFieldsEnum["Is metro city"] as string,
+          ExemptionFieldsEnum["Rent paid"] as string,
+        ].includes(key)
+      ) {
+        return acc;
+      }
+
+      const income = fields[key as keyof typeof fields];
+
+      if (typeof income !== "number") {
+        return acc;
+      }
+      return acc + (Number(income) || 0);
+    }, 0) + STANDARD_DEDUCTION.value
+  );
 };

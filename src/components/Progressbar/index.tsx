@@ -21,6 +21,8 @@ function ProgressBar(props: Props) {
   if (current !== 0) {
     trackColor = "bg-gray-100";
   }
+  current = Math.round(current);
+  max = Math.round(max);
   return (
     <div className="w-full mt-2 relative  mb-4">
       <div className={"rounded-full h-1.5  dark:bg-gray-700 " + trackColor}>

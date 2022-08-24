@@ -18,4 +18,6 @@ export enum ExemptionFieldsEnum {
   "80GGA" = "80GGA",
   "80GGC" = "80GGC",
   Other_Exemptions = "Other Exemptions",
+  "Rent paid" = "Rent Paid",
+  "Is metro city" = "Is metro city",
 }

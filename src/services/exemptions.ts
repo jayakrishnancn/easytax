@@ -20,6 +20,8 @@ export const initialDefaultState = {
   [ExemptionFieldsEnum["Other_Exemptions"]]: 0,
   [ExemptionFieldsEnum["Standard Deduction"]]: 50_000,
   [ExemptionFieldsEnum["HRA"]]: 0,
+  [ExemptionFieldsEnum["Rent paid"]]: 0,
+  [ExemptionFieldsEnum["Is metro city"]]: false,
 };
 
 enum STORE_KEYS {
