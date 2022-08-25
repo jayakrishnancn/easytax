@@ -14,7 +14,8 @@ import HRA from "../util/calculations/hra";
 import { currencyFormat } from "../util/currencyFormat";
 
 function ExemptionsTab() {
-  const [intiallySorted, setIntiallySorted] = useState(false);
+  const [exemptionsFieldSorted, setExemptionsFieldSorted] =
+    useState<string>("0");
   const exemptions = useSelector((state: RootState) => state.exemptions);
   const year = useSelector((state: RootState) => state.year);
   const income = useSelector((state: RootState) => state.income);
@@ -44,15 +45,15 @@ function ExemptionsTab() {
   }, [exemptions]);
 
   useEffect(() => {
-    if (!intiallySorted) {
+    if (year !== exemptionsFieldSorted) {
       EXEMPTIONS.sort((a, b) => {
         let bvalue = Number(exemptions[b.title]) || Number(b.value) || 0;
         let aValue = Number(exemptions[a.title]) || Number(a.value) || 0;
         return bvalue - aValue;
       });
-      setIntiallySorted(true);
+      setExemptionsFieldSorted(year);
     }
-  }, [exemptions, intiallySorted]);
+  }, [exemptions, exemptionsFieldSorted, year]);
   const rentPaid = getFieldValue(ExemptionFieldsEnum["Rent paid"]);
   const isMetro = exemptions[ExemptionFieldsEnum["Is metro city"]];
 
