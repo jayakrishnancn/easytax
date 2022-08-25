@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Description from "../components/Description";
 import Input from "../components/Input";
 import ProgressBar from "../components/Progressbar";
-import Tick from "../components/Tick";
 import Toggle from "../components/Toggle";
+import WithTick from "../components/WithTick";
 import { EXEMPTIONS } from "../constants/exemptionFields";
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { RootState } from "../store";
@@ -37,28 +38,6 @@ function ExemptionsTab() {
       })
     );
   };
-  interface DescriptionProps {
-    title: string;
-    details?: string;
-  }
-  function Description(props: DescriptionProps) {
-    const { title, details } = props;
-    return (
-      <div>
-        <div>{title}</div>
-        <div className="text-gray-400 text-xs">{details}</div>
-      </div>
-    );
-  }
-
-  function WithTick(props: any) {
-    return (
-      <div className="flex justify-between">
-        <span>{props.if && <Tick />}</span>
-        <span>{props.text || ""}</span>
-      </div>
-    );
-  }
 
   const totalExemptions = useMemo(() => {
     return currencyFormat(calculateTotalExemptions(exemptions));
