@@ -1,6 +1,5 @@
 import { IncomeFieldsEnum } from "../enum/incomeFields";
 import { IncomeFields } from "../type/income";
-import { FORMATTED_FY } from "../util/calender";
 
 export const initialDefaultState: IncomeFields = {
   [IncomeFieldsEnum.salary_basicDA]: { value: 0, isMonthly: false },
