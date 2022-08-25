@@ -21,13 +21,15 @@ function App() {
 
   useEffect(() => {
     dispatch(resetIncome(getIncomeData(FORMATTED_FY)));
-    dispatch(resetExemptions(getExemptionData()));
+    dispatch(resetExemptions(getExemptionData(FORMATTED_FY)));
   }, [dispatch]);
 
   const handleYearChange = (value: string) => {
     const newIncomeData = getIncomeData(value);
+    const newExemptionsData = getExemptionData(value);
     dispatch(loadYear(value));
     dispatch(resetIncome(newIncomeData));
+    dispatch(resetExemptions(newExemptionsData));
   };
 
   const AVAILABLE_AY = getAllFY().map((year) => ({ value: year }));

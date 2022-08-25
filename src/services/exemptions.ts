@@ -29,7 +29,7 @@ enum STORE_KEYS {
   Exemptions = "Exemptions",
 }
 
-export const getExemptionData = (year = FORMATTED_FY) => {
+export const getExemptionData = (year: string) => {
   let data = initialDefaultState;
   try {
     const tmp = localStorage.getItem(STORE_KEYS.Exemptions + year);
@@ -41,6 +41,6 @@ export const getExemptionData = (year = FORMATTED_FY) => {
   return data;
 };
 
-export const saveExemptionData = (value: any, year = FORMATTED_FY): void => {
+export const saveExemptionData = (value: any, year: string): void => {
   localStorage.setItem(STORE_KEYS.Exemptions + year, JSON.stringify(value));
 };

@@ -1,3 +1,4 @@
+import { FORMATTED_FY } from "./../../util/calender";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   initialDefaultState,
@@ -13,12 +14,12 @@ export const exemptionsSlice = createSlice({
       return { ...action.payload };
     },
     changeExemptionField: (state, action: ChangeExemptionFieldAction) => {
-      const { field, value } = action.payload;
+      const { field, value, year = FORMATTED_FY } = action.payload;
       const newState = {
         ...state,
         [field]: value,
       };
-      saveExemptionData(newState);
+      saveExemptionData(newState, year);
       return newState;
     },
   },

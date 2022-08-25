@@ -28,6 +28,7 @@ export type ChangeExemptionFieldAction = {
   payload: {
     field: ExemptionFieldsEnum;
     value?: number | string | boolean;
+    year?: string;
   };
   type: string;
 };

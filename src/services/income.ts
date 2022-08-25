@@ -16,7 +16,7 @@ enum STORE_KEYS {
   Income = "Income",
 }
 
-export const getIncomeData = (year: string = FORMATTED_FY): IncomeFields => {
+export const getIncomeData = (year: string): IncomeFields => {
   let data = initialDefaultState;
   try {
     const tmp = localStorage.getItem(STORE_KEYS.Income + year);
@@ -28,9 +28,6 @@ export const getIncomeData = (year: string = FORMATTED_FY): IncomeFields => {
   return data;
 };
 
-export const saveIncomeData = (
-  value: IncomeFields,
-  year: string = FORMATTED_FY
-): void => {
+export const saveIncomeData = (value: IncomeFields, year: string): void => {
   localStorage.setItem(STORE_KEYS.Income + year, JSON.stringify(value));
 };

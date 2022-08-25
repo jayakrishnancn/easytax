@@ -15,6 +15,7 @@ import { currencyFormat } from "../util/currencyFormat";
 function ExemptionsTab() {
   const [intiallySorted, setIntiallySorted] = useState(false);
   const exemptions = useSelector((state: RootState) => state.exemptions);
+  const year = useSelector((state: RootState) => state.year);
   const income = useSelector((state: RootState) => state.income);
 
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function ExemptionsTab() {
       changeExemptionField({
         field,
         value,
+        year,
       })
     );
   };
@@ -90,11 +92,12 @@ function ExemptionsTab() {
       changeExemptionField({
         value: tmp.calcaulteMaxHRA(),
         field: ExemptionFieldsEnum.HRA,
+        year,
       })
     );
 
     return tmp;
-  }, [dispatch, income, isMetro, rentPaid]);
+  }, [dispatch, income, isMetro, rentPaid, year]);
 
   const isMetroCity = !!exemptions[ExemptionFieldsEnum["Is metro city"]];
 
