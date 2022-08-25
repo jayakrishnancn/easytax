@@ -1,19 +1,9 @@
+import { HiCheck } from "react-icons/hi";
 function Tick() {
   return (
-    <svg
-      className="w-6 h-6 text-green-600"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-      ></path>
-    </svg>
+    <div className="p-1 rounded-full border border-green-600 text-green-600 bg-green-200">
+      <HiCheck size="0.7em" />
+    </div>
   );
 }
 

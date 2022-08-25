@@ -36,7 +36,7 @@ function Compare() {
       <div
         className={
           "mx-2 flex-1 font-normal align-middle justify-center flex flex-col relative border p-3 rounded " +
-          (better === 1 ? "bg-green-100" : "bg-gray-100")
+          (better === 1 ? "bg-green-100 border-green-400" : "bg-gray-100")
         }
       >
         <div>Tax as per Old Regime:</div>
@@ -51,7 +51,7 @@ function Compare() {
       <div
         className={
           "mx-2 flex-1 font-normal align-middle justify-center flex flex-col relative border p-3 rounded " +
-          (better === 2 ? "bg-green-100" : "bg-gray-100")
+          (better === 2 ? "bg-green-100 border-green-400" : "bg-gray-100")
         }
       >
         <div>Tax as per New Regime:</div>

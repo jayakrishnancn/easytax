@@ -15,6 +15,7 @@ specifiers:
   postcss: ^8.4.16
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-icons: ^4.4.0
   react-redux: ^8.0.2
   react-scripts: 5.0.1
   tailwindcss: ^3.1.8
@@ -34,6 +35,7 @@ dependencies:
   flowbite-react: 0.1.10_5gpsvf2cjw4zlguc4umrhekegq
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.4.0_react@18.2.0
   react-redux: 8.0.2_76am3hp3mjvgy3cckgdecixdi4
   react-scripts: 5.0.1_qtbnez4q7bzoc4eqybg3efzzxe
   typescript: 4.7.4

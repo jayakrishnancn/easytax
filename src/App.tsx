@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
+import Select from "./components/Select";
 import Compare from "./screen/Compare";
 import ExemptionsTab from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
@@ -8,6 +9,7 @@ import { getExemptionData } from "./services/exemptions";
 import { getIncomeData } from "./services/income";
 import { resetExemptions } from "./store/reducers/exemptionsReducer";
 import { resetIncome } from "./store/reducers/incomeReducer";
+import { getAllFY } from "./util/calender";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
@@ -18,14 +20,15 @@ function App() {
     dispatch(resetExemptions(getExemptionData()));
   }, [dispatch]);
 
+  const handleYearChange = (value: string) => {};
+  const AVAILABLE_AY = getAllFY().map((year) => ({ value: year }));
   return (
     <div className="App">
       <h1 className="mt-2 mb-5 font-extrabold tracking-tight leading-none text-gray-900 text-4xl">
         Simple Tax
       </h1>
-
       <Compare />
-      <div className=" max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
+      <div className="mt-2 max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
         <ul
           className="flex flex-wrap -mb-px text-sm font-medium text-center"
           id="myTab"
@@ -59,6 +62,12 @@ function App() {
             >
               Exemptions & Deductions
             </button>
+          </li>
+          <li
+            className="ml-auto flex justify-center items-center"
+            role="presentation"
+          >
+            <Select values={AVAILABLE_AY} onChange={handleYearChange} />
           </li>
         </ul>
       </div>
