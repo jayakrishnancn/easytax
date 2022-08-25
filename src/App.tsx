@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import Select from "./components/Select";
 import Compare from "./screen/Compare";
@@ -7,25 +7,34 @@ import ExemptionsTab from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
 import { getExemptionData } from "./services/exemptions";
 import { getIncomeData } from "./services/income";
+import { RootState } from "./store";
 import { resetExemptions } from "./store/reducers/exemptionsReducer";
 import { resetIncome } from "./store/reducers/incomeReducer";
-import { getAllFY } from "./util/calender";
+import { loadYear } from "./store/reducers/taxYearReducer";
+import { FORMATTED_FY, getAllFY } from "./util/calender";
 
 function App() {
   const [tab, setTab] = useState<number>(0);
+  const year = useSelector((state: RootState) => state.year);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(resetIncome(getIncomeData()));
+    dispatch(resetIncome(getIncomeData(FORMATTED_FY)));
     dispatch(resetExemptions(getExemptionData()));
   }, [dispatch]);
 
-  const handleYearChange = (value: string) => {};
+  const handleYearChange = (value: string) => {
+    const newIncomeData = getIncomeData(value);
+    dispatch(loadYear(value));
+    dispatch(resetIncome(newIncomeData));
+  };
+
   const AVAILABLE_AY = getAllFY().map((year) => ({ value: year }));
   return (
     <div className="App">
       <h1 className="mt-2 mb-5 font-extrabold tracking-tight leading-none text-gray-900 text-4xl">
-        Simple Tax
+        Simple Tax for {year}
       </h1>
       <Compare />
       <div className="mt-2 max-w-xl mx-auto  border-b border-gray-200 dark:border-gray-700">
@@ -67,7 +76,11 @@ function App() {
             className="ml-auto flex justify-center items-center"
             role="presentation"
           >
-            <Select values={AVAILABLE_AY} onChange={handleYearChange} />
+            <Select
+              defaultValue={FORMATTED_FY}
+              values={AVAILABLE_AY}
+              onChange={handleYearChange}
+            />
           </li>
         </ul>
       </div>

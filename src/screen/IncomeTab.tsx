@@ -10,6 +10,7 @@ import { calculateTotalIncome } from "../util/incomeUtils";
 
 function IncomeTab() {
   const incomeFields = useSelector((state: RootState) => state.income);
+  const year = useSelector((state: RootState) => state.year);
   const dispatch = useDispatch();
   const getFieldValue = (field: IncomeFieldsEnum) => {
     let value = Number(incomeFields[field].value) || 0;
@@ -21,6 +22,7 @@ function IncomeTab() {
       changeIncomeField({
         field,
         value,
+        year,
       })
     );
   };
@@ -29,6 +31,7 @@ function IncomeTab() {
       changeIncomeField({
         field,
         isMonthly,
+        year,
       })
     );
   };

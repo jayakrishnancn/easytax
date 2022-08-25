@@ -2,7 +2,7 @@ export function getAllFY() {
   const fy = [];
   let currentYear = getcurrentFY();
 
-  for (let year = 2020; year <= currentYear; year++) {
+  for (let year = currentYear; year >= 2020; year--) {
     fy.push(`FY ${year}-${year + 1}`);
   }
 
@@ -20,7 +20,5 @@ export function getcurrentFY() {
   return currentYear;
 }
 
-export function formattedFY() {
-  const year = getcurrentFY();
-  return `FY ${year}-${year + 1}`;
-}
+const year = getcurrentFY();
+export const FORMATTED_FY = `FY ${year}-${year + 1}`;

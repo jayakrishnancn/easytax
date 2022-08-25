@@ -13,6 +13,7 @@ export type ChangeIncomeFieldAction = {
     field: IncomeFieldsEnum;
     value?: number | string | boolean;
     isMonthly?: boolean;
+    year?: string;
   };
   type: string;
 };

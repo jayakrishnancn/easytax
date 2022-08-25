@@ -1,3 +1,4 @@
+import { FORMATTED_FY } from "../util/calender";
 import { ExemptionFieldsEnum } from "./../enum/exemptionFields";
 
 export const initialDefaultState = {
@@ -28,10 +29,10 @@ enum STORE_KEYS {
   Exemptions = "Exemptions",
 }
 
-export const getExemptionData = () => {
+export const getExemptionData = (year = FORMATTED_FY) => {
   let data = initialDefaultState;
   try {
-    const tmp = localStorage.getItem(STORE_KEYS.Exemptions);
+    const tmp = localStorage.getItem(STORE_KEYS.Exemptions + year);
     if (tmp) {
       data = JSON.parse(tmp);
     }
@@ -40,6 +41,6 @@ export const getExemptionData = () => {
   return data;
 };
 
-export const saveExemptionData = (value: any): void => {
-  localStorage.setItem(STORE_KEYS.Exemptions, JSON.stringify(value));
+export const saveExemptionData = (value: any, year = FORMATTED_FY): void => {
+  localStorage.setItem(STORE_KEYS.Exemptions + year, JSON.stringify(value));
 };
