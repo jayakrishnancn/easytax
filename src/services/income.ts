@@ -9,6 +9,7 @@ export const initialDefaultState: IncomeFields = {
   [IncomeFieldsEnum.businessAndProfession]: { value: 0, isMonthly: false },
   [IncomeFieldsEnum.CapitalGains]: { value: 0, isMonthly: false },
   [IncomeFieldsEnum.other]: { value: 0, isMonthly: false },
+  [IncomeFieldsEnum.govtEmployee]: { value: 0, isMonthly: false },
 };
 
 enum STORE_KEYS {

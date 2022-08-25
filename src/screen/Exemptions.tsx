@@ -83,10 +83,11 @@ function ExemptionsTab() {
 
   const getMaximumValue = useCallback(
     (title: ExemptionFieldsEnum): number | null => {
+      const percent = income["Govt Employee"].isMonthly ? 0.14 : 0.1;
       if (title === ExemptionFieldsEnum["80CCD_2_"]) {
         const salaryBasicDA = income["Salary (Basic + DA)"];
         return Math.floor(
-          0.1 *
+          percent *
             ((Number(salaryBasicDA?.value) || 0) *
               (salaryBasicDA.isMonthly ? 12 : 1))
         );
