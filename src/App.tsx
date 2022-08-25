@@ -5,9 +5,13 @@ import Select from "./components/Select";
 import Compare from "./screen/Compare";
 import ExemptionsTab from "./screen/Exemptions";
 import IncomeTab from "./screen/IncomeTab";
-import { getExemptionData } from "./services/exemptions";
+import {
+  getDetailedExemptionData,
+  getExemptionData,
+} from "./services/exemptions";
 import { getIncomeData } from "./services/income";
 import { RootState } from "./store";
+import { resetDeailedExemptions } from "./store/reducers/detailedExemptionsReducer";
 import { resetExemptions } from "./store/reducers/exemptionsReducer";
 import { resetIncome } from "./store/reducers/incomeReducer";
 import { loadYear } from "./store/reducers/taxYearReducer";
@@ -27,15 +31,18 @@ function App() {
   const handleYearChange = (value: string) => {
     const newIncomeData = getIncomeData(value);
     const newExemptionsData = getExemptionData(value);
+    const newDetailedExemptionsData = getDetailedExemptionData(value);
+
     dispatch(loadYear(value));
     dispatch(resetIncome(newIncomeData));
     dispatch(resetExemptions(newExemptionsData));
+    dispatch(resetDeailedExemptions(newDetailedExemptionsData));
   };
 
   const AVAILABLE_AY = getAllFY().map((year) => ({ value: year }));
   return (
     <div className="App">
-      <h1 className="mt-2 mb-5 font-extrabold tracking-tight leading-none text-gray-900 text-4xl">
+      <h1 className="text-center mt-2 mb-5 font-extrabold tracking-tight leading-none text-gray-900 text-4xl">
         Simple Tax for {year}
       </h1>
       <Compare />

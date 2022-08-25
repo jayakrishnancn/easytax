@@ -24,11 +24,30 @@ export type InitializeExemptionAction = {
   type: string;
 };
 
+export type DetailedExemptions = {
+  [key: string]: { value: number; isMonthly: boolean };
+};
+
+export type InitializeDetailedExemptionAction = {
+  payload: DetailedExemptions;
+  type: string;
+};
+
 export type ChangeExemptionFieldAction = {
   payload: {
     field: ExemptionFieldsEnum;
     value?: number | string | boolean;
     year?: string;
+  };
+  type: string;
+};
+
+export type ChangeDetailedExemptionFieldAction = {
+  payload: {
+    field: string;
+    value?: number;
+    year?: string;
+    isMonthly?: boolean;
   };
   type: string;
 };
