@@ -1,3 +1,4 @@
+import { DetailedExemptions } from "../store/reducers/type";
 import { ExemptionFieldsEnum } from "./../enum/exemptionFields";
 
 export const initialDefaultState = {
@@ -24,14 +25,15 @@ export const initialDefaultState = {
   [ExemptionFieldsEnum["Is metro city"]]: false,
 };
 
-enum STORE_KEYS {
+export enum STORE_KEYS {
   Exemptions = "Exemptions",
+  DetailedExemptions = "Detailed Exemptions",
 }
 
-export const getExemptionData = (year: string) => {
+export const getExemptionData = (year: string, key = STORE_KEYS.Exemptions) => {
   let data = initialDefaultState;
   try {
-    const tmp = localStorage.getItem(STORE_KEYS.Exemptions + year);
+    const tmp = localStorage.getItem(key + year);
     if (tmp) {
       data = JSON.parse(tmp);
     }
@@ -40,6 +42,25 @@ export const getExemptionData = (year: string) => {
   return data;
 };
 
-export const saveExemptionData = (value: any, year: string): void => {
-  localStorage.setItem(STORE_KEYS.Exemptions + year, JSON.stringify(value));
+export const getDetailedExemptionData = (
+  year: string,
+  key = STORE_KEYS.DetailedExemptions
+): DetailedExemptions => {
+  let data = {} as DetailedExemptions;
+  try {
+    const tmp = localStorage.getItem(key + year);
+    if (tmp) {
+      data = JSON.parse(tmp);
+    }
+  } catch {}
+
+  return data;
+};
+
+export const saveExemptionData = (
+  value: any,
+  year: string,
+  key = STORE_KEYS.Exemptions
+): void => {
+  localStorage.setItem(key + year, JSON.stringify(value));
 };

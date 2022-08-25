@@ -1,6 +1,8 @@
+import { Button } from "flowbite-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Description from "../components/Description";
+import DetailedModal80C from "../components/DetailedModal80C";
 import Input from "../components/Input";
 import ProgressBar from "../components/Progressbar";
 import Toggle from "../components/Toggle";
@@ -16,6 +18,8 @@ import { currencyFormat } from "../util/currencyFormat";
 function ExemptionsTab() {
   const [exemptionsFieldSorted, setExemptionsFieldSorted] =
     useState<string>("0");
+  const [detailedModal, setDetailedModal] =
+    useState<ExemptionFieldsEnum | null>(null);
   const exemptions = useSelector((state: RootState) => state.exemptions);
   const year = useSelector((state: RootState) => state.year);
   const income = useSelector((state: RootState) => state.income);
@@ -30,7 +34,7 @@ function ExemptionsTab() {
     [exemptions]
   );
 
-  const changeField = (field: ExemptionFieldsEnum, value: number) => {
+  const changeField = (field: ExemptionFieldsEnum, value: number | boolean) => {
     dispatch(
       changeExemptionField({
         field,
@@ -97,23 +101,30 @@ function ExemptionsTab() {
     [income]
   );
 
+  const getDetailedModal = (field: ExemptionFieldsEnum) => {
+    const close = () => setDetailedModal(null);
+
+    switch (field) {
+      case ExemptionFieldsEnum["80C"]:
+        return <DetailedModal80C onCancel={close} onSubmit={close} />;
+    }
+    return null;
+  };
+
   return (
-    <table className="income-table w-full table-fixed mt-4 mb-8 text-left">
+    <table className="table-fixed income-table w-full mt-4 mb-8 text-left">
       <thead>
         <tr className="bg-orange-600 text-white">
-          <td colSpan={2}>Total Exemptions & deductions</td>
+          <td colSpan={3}>Total Exemptions & deductions</td>
           <td className="text-right">{totalExemptions}</td>
         </tr>
       </thead>
       <tbody>
         <tr className="bg-gray-200">
           <td>HRA</td>
-          <td>
-            <ProgressBar
-              current={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
-              max={hra.optimalRent()}
-            />
-          </td>
+
+          <td></td>
+          <td></td>
           <td className="text-center">
             {currencyFormat(hra.calcaulteMaxHRA())}
           </td>
@@ -121,9 +132,15 @@ function ExemptionsTab() {
         <tr className="bg-gray-200">
           <td>Rent per month</td>
           <td>
+            <ProgressBar
+              current={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
+              max={hra.optimalRent()}
+            />
+          </td>
+          <td>
             <Toggle
               isEnabled={exemptions[ExemptionFieldsEnum["Is metro city"]]}
-              onChange={(value) => {
+              onChange={(value: boolean) => {
                 changeField(ExemptionFieldsEnum["Is metro city"], value);
               }}
               label="Metro city?"
@@ -139,7 +156,7 @@ function ExemptionsTab() {
           </td>
         </tr>
         <tr className="bg-gray-200">
-          <td colSpan={2} className="text-right">
+          <td colSpan={3} className="text-right">
             <WithTick
               if={hra.current === 0}
               text="House Rent Paid - 10% of Basic + DA"
@@ -148,7 +165,7 @@ function ExemptionsTab() {
           <td>{currencyFormat(hra.A_10perBaseAndDA)}</td>
         </tr>
         <tr className="bg-gray-200">
-          <td colSpan={2} className="text-right">
+          <td colSpan={3} className="text-right">
             <WithTick
               if={hra.current === 1}
               text={`${isMetroCity ? 50 : 40}% of Basic + DA in
@@ -158,14 +175,21 @@ function ExemptionsTab() {
           <td>{currencyFormat(hra.B_50PerBaseAndDA)}</td>
         </tr>
         <tr className="bg-gray-200">
-          <td colSpan={2} className="text-right">
+          <td colSpan={3} className="text-right">
             <WithTick if={hra.current === 2} text="HRA Received" />
           </td>
           <td>{currencyFormat(hra.HRAReceived)}</td>
         </tr>
 
         {EXEMPTIONS.map(
-          ({ title, value, max = Infinity, isDisabled, details }) => (
+          ({
+            title,
+            value,
+            max = Infinity,
+            isDisabled,
+            details,
+            hasModal = false,
+          }) => (
             <tr key={title}>
               <td>
                 <Description title={title} details={details} />
@@ -175,6 +199,11 @@ function ExemptionsTab() {
                   current={value ?? Number(exemptions[title])}
                   max={getMaximumValue(title) ?? max}
                 />
+              </td>
+              <td className="text-center justify-center items-center flex">
+                {hasModal && (
+                  <Button onClick={() => setDetailedModal(title)}>Split</Button>
+                )}
               </td>
               <td>
                 <Input
@@ -189,6 +218,8 @@ function ExemptionsTab() {
             </tr>
           )
         )}
+
+        {detailedModal && getDetailedModal(detailedModal)}
       </tbody>
     </table>
   );

@@ -7,4 +7,5 @@ export type Exemption = {
   details?: string;
   isDisabled?: boolean;
   value?: number;
+  hasModal?: boolean;
 };

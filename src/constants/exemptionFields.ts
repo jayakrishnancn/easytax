@@ -15,6 +15,7 @@ export const EXEMPTIONS: Exemption[] = [
   {
     title: ExemptionFieldsEnum["80C"],
     details: "LIC,PPF,EPF,NPS",
+    hasModal: true,
     max: 1_50_000,
   },
   {
