@@ -19,7 +19,7 @@ function DetailedModal80CCD2(props: ModalProps) {
   const year = useSelector((state: RootState) => state.year);
   const dispatch = useDispatch();
   const getFieldValue = (field: DetailedExemptionFieldsEnum) => {
-    let value = Number(detailedExemptions[field].value) || 0;
+    let value = Number(detailedExemptions[field]?.value) || 0;
     return { ...detailedExemptions[field], value };
   };
 
