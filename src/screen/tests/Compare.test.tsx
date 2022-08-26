@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import store from "../../store";
 import { changeIncomeField } from "../../store/reducers/incomeReducer";
@@ -105,45 +105,62 @@ describe("<Description />", () => {
   });
 
   test("chagne heighlight old -> new & new -> old regime", async () => {
+    // setting 5_00_001 will set optimal to old
     store.dispatch(
       changeIncomeField({
         field: IncomeFieldsEnum.salary_basicDA,
-        value: 500001,
+        value: 5_00_001,
         isMonthly: false,
       })
     );
     renderWithStore(<Compare />);
 
     const save = screen.queryByLabelText(saveByOldTestId);
+    expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(
+      500001
+    );
     expect(screen.queryByLabelText(oldTestId)).toHaveTextContent("₹0.00");
     expect(screen.queryByLabelText(newTestId)).toHaveTextContent("₹13,000.10");
     expect(save).toHaveTextContent("Save ₹13,000.10");
     expect(screen.queryByLabelText(saveByNewTestId)).not.toBeInTheDocument();
 
     // dispatch base+da field with 5000001
-    // 5000001 will change optimal tax to new regime
+    // 50_00_001 will change optimal tax to new regime
     store.dispatch(
       changeIncomeField({
         field: IncomeFieldsEnum.salary_basicDA,
-        value: 5000001,
+        value: 50_00_001,
         isMonthly: false,
       })
     );
-    await new Promise((r) => setTimeout(r, 10));
+    await new Promise((r) => setTimeout(r, 5));
+    expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(
+      5000001
+    );
     expect(screen.queryByLabelText(oldTestId)).toHaveTextContent(
       "₹13,49,400.31"
     );
     expect(screen.queryByLabelText(newTestId)).toHaveTextContent(
       "₹12,87,000.31"
     );
-    expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(
-      5000001
-    );
     expect(screen.queryByLabelText(saveByOldTestId)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(saveByNewTestId)).toHaveTextContent(
       "Save ₹62,400.00"
     );
+
+    // change back to zero
+    store.dispatch(
+      changeIncomeField({
+        field: IncomeFieldsEnum.salary_basicDA,
+        value: 0,
+        isMonthly: false,
+      })
+    );
+    await new Promise((r) => setTimeout(r, 5));
+    expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(0);
+    expect(screen.queryByLabelText(oldTestId)).toHaveTextContent("₹0.00");
+    expect(screen.queryByLabelText(newTestId)).toHaveTextContent("₹0.00");
+    expect(screen.queryByLabelText(saveByOldTestId)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(saveByNewTestId)).not.toBeInTheDocument();
   });
-  test.todo("change year and check default taxRegimes");
-  test.todo("change back to prev year and check taxRegimes");
 });
