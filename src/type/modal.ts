@@ -4,5 +4,5 @@ export type ModalProps = {
   children?: ReactNode;
   title?: string;
   onCancel: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
 };

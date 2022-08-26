@@ -14,6 +14,7 @@ import Toggle from "../Toggle";
 const MAX = 1_50_000;
 
 function DetailedModal80C(props: ModalProps) {
+  const { onCancel } = props;
   const dispatch = useDispatch();
 
   const exemptions = useSelector(
@@ -80,17 +81,17 @@ function DetailedModal80C(props: ModalProps) {
 
   return (
     <DetailedModal
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       title="80C"
       footerItems={
-        <table className="table-fixed w-full text-center">
+        <table className="table-fixed w-full text-right">
           <tbody>
             <tr>
               <td>
                 <ProgressBar current={current} max={MAX} />
               </td>
-              <td className="px-2">
-                <table className="table-fixed">
+              <td className="px-2 flex justify-end text-right">
+                <table className="">
                   <tbody>
                     <tr>
                       <td className="text-right pr-2">Total</td>

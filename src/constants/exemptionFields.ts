@@ -48,6 +48,7 @@ export const EXEMPTIONS: Exemption[] = [
   {
     title: ExemptionFieldsEnum["80CCD_2_"],
     details: "Employers contribution to NPS",
+    hasModal: true,
   },
   {
     title: ExemptionFieldsEnum["80EEA"],

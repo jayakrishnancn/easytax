@@ -7,7 +7,7 @@ function Toggle(props: Props) {
   const { onChange, isEnabled = false, label } = props;
 
   return (
-    <div>
+    <div className="p-2 h-full flex justify-center items-center">
       <label className=" inline-flex relative items-center cursor-pointer">
         <input
           type="checkbox"
