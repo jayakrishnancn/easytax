@@ -10,6 +10,7 @@ import ProgressBar from "../components/Progressbar";
 import Toggle from "../components/Toggle";
 import WithTick from "../components/WithTick";
 import { EXEMPTIONS } from "../constants/exemptionFields";
+import { DetailedExemptionFields } from "../enum/detailedExemptionFields";
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { RootState } from "../store";
 import { changeExemptionField } from "../store/reducers/exemptionsReducer";
@@ -22,6 +23,9 @@ function ExemptionsTab() {
   const [detailedModal, setDetailedModal] =
     useState<ExemptionFieldsEnum | null>(null);
   const exemptions = useSelector((state: RootState) => state.exemptions);
+  const detailedExemptions = useSelector(
+    (state: RootState) => state.detailedExemptions
+  );
   const year = useSelector((state: RootState) => state.year);
   const income = useSelector((state: RootState) => state.income);
 
@@ -96,10 +100,15 @@ function ExemptionsTab() {
             ((Number(salaryBasicDA?.value) || 0) *
               (salaryBasicDA.isMonthly ? 12 : 1))
         );
+      } else if (title === ExemptionFieldsEnum["80DD"]) {
+        const severe =
+          detailedExemptions[DetailedExemptionFields["80DD-severe disability"]]
+            ?.isMonthly;
+        return severe ? 1_25_000 : 75_000;
       }
       return null;
     },
-    [income]
+    [detailedExemptions, income]
   );
 
   const getDetailedModal = (field: ExemptionFieldsEnum) => {

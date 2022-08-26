@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { DetailedExemptionFields } from "../../enum/detailedExemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { ModalProps } from "../../type/modal";
@@ -24,7 +25,7 @@ function DetailedModal80DD(props: ModalProps) {
       })
     );
   };
-  const FIELD = "80DD-severe disability";
+  const FIELD = DetailedExemptionFields["80DD-severe disability"];
   const body = (
     <table className="w-full">
       <tbody>
