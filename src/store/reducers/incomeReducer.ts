@@ -14,7 +14,7 @@ export const incomeSlice = createSlice({
       const {
         field,
         value = state[field].value,
-        isMonthly = state[field].isMonthly,
+        isMonthly = state[field]?.isMonthly,
         year = FORMATTED_FY,
       } = action.payload;
       const newState = {

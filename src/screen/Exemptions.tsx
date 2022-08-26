@@ -10,7 +10,7 @@ import ProgressBar from "../components/Progressbar";
 import Toggle from "../components/Toggle";
 import WithTick from "../components/WithTick";
 import { EXEMPTIONS } from "../constants/exemptionFields";
-import { DetailedExemptionFields } from "../enum/detailedExemptionFields";
+import { DetailedExemptionFieldsEnum } from "../enum/detailedExemptionFields";
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { RootState } from "../store";
 import { changeExemptionField } from "../store/reducers/exemptionsReducer";
@@ -71,8 +71,8 @@ function ExemptionsTab() {
     const salaryHRA = income["Salary (HRA)"];
 
     const tmp = new HRA(
-      (Number(salaryBasicDA?.value) || 0) * (salaryBasicDA.isMonthly ? 12 : 1),
-      (Number(salaryHRA?.value) || 0) * (salaryHRA.isMonthly ? 12 : 1),
+      (Number(salaryBasicDA?.value) || 0) * (salaryBasicDA?.isMonthly ? 12 : 1),
+      (Number(salaryHRA?.value) || 0) * (salaryHRA?.isMonthly ? 12 : 1),
       rentPaid,
       isMetro
     );
@@ -92,18 +92,23 @@ function ExemptionsTab() {
 
   const getMaximumValue = useCallback(
     (title: ExemptionFieldsEnum): number | null => {
-      const percent = income["Govt Employee"].isMonthly ? 0.14 : 0.1;
+      const percent = detailedExemptions[
+        DetailedExemptionFieldsEnum["80CCD_2-Govt Employee"]
+      ]?.isMonthly
+        ? 0.14
+        : 0.1;
       if (title === ExemptionFieldsEnum["80CCD_2_"]) {
         const salaryBasicDA = income["Salary (Basic + DA)"];
         return Math.floor(
           percent *
             ((Number(salaryBasicDA?.value) || 0) *
-              (salaryBasicDA.isMonthly ? 12 : 1))
+              (salaryBasicDA?.isMonthly ? 12 : 1))
         );
       } else if (title === ExemptionFieldsEnum["80DD"]) {
         const severe =
-          detailedExemptions[DetailedExemptionFields["80DD-severe disability"]]
-            ?.isMonthly;
+          detailedExemptions[
+            DetailedExemptionFieldsEnum["80DD-severe disability"]
+          ]?.isMonthly;
         return severe ? 1_25_000 : 75_000;
       }
       return null;

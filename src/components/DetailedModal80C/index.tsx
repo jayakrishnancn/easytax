@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { ExemptionFieldsEnum } from "../../enum/exemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
@@ -22,7 +23,10 @@ function DetailedModal80C(props: ModalProps) {
   );
   const year = useSelector((state: RootState) => state.year);
 
-  const handleToggleChange = (field: string, isMonthly: boolean) => {
+  const handleToggleChange = (
+    field: DetailedExemptionFieldsEnum,
+    isMonthly: boolean
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -32,7 +36,10 @@ function DetailedModal80C(props: ModalProps) {
     );
   };
 
-  const handleValueChange = (field: string, value: number) => {
+  const handleValueChange = (
+    field: DetailedExemptionFieldsEnum,
+    value: number
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -42,19 +49,39 @@ function DetailedModal80C(props: ModalProps) {
     );
   };
 
-  const _80C = useMemo(
+  const _80C = useMemo<{ id: DetailedExemptionFieldsEnum; title: string }[]>(
     () => [
-      { id: "_80C-Employee provident fund", title: "Employee provident fund" },
       {
-        id: "_80C-Equity-linked savings scheme (ELSS)",
+        id: DetailedExemptionFieldsEnum["_80C-Employee provident fund"],
+        title: "Employee provident fund",
+      },
+      {
+        id: DetailedExemptionFieldsEnum[
+          "_80C-Equity-linked savings scheme (ELSS)"
+        ],
         title: "Equity-linked savings scheme (ELSS)",
       },
-      { id: "_80C-Life insurance", title: "Life insurance" },
-      { id: "_80C-Public provident dund", title: "Public provident dund" },
-      { id: "_80C-House loan principal", title: "House loan principal" },
-      { id: "_80C-National pensoin scheme", title: "National pensoin scheme" },
-      { id: "_80C-Tuitio fees", title: "Tuitio fees" },
-      { id: "_80C-Others", title: "Others" },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Life insurance"],
+        title: "Life insurance",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Public provident dund"],
+        title: "Public provident dund",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-House loan principal"],
+        title: "House loan principal",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-National pensoin scheme"],
+        title: "National pensoin scheme",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Tuitio fees"],
+        title: "Tuitio fees",
+      },
+      { id: DetailedExemptionFieldsEnum["_80C-Others"], title: "Others" },
     ],
     []
   );

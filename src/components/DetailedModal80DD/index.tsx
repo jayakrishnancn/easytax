@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { DetailedExemptionFields } from "../../enum/detailedExemptionFields";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { ModalProps } from "../../type/modal";
@@ -16,7 +16,10 @@ function DetailedModal80DD(props: ModalProps) {
   const year = useSelector((state: RootState) => state.year);
   const dispatch = useDispatch();
 
-  const changeFieldMonthly = (field: string, isMonthly: boolean) => {
+  const changeFieldMonthly = (
+    field: DetailedExemptionFieldsEnum,
+    isMonthly: boolean
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -25,7 +28,7 @@ function DetailedModal80DD(props: ModalProps) {
       })
     );
   };
-  const FIELD = DetailedExemptionFields["80DD-severe disability"];
+  const FIELD = DetailedExemptionFieldsEnum["80DD-severe disability"];
   const body = (
     <table className="w-full">
       <tbody>

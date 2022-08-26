@@ -49,26 +49,12 @@ function IncomeTab() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colSpan={2}>
-            Are you a central or state government employee? (for 80CCD(2))
-          </td>
-          <td>
-            <Toggle
-              isEnabled={getFieldValue(IncomeFieldsEnum.govtEmployee).isMonthly}
-              onChange={(isMonthly) =>
-                changeFieldMonthly(IncomeFieldsEnum.govtEmployee, isMonthly)
-              }
-              label="Yes"
-            />
-          </td>
-        </tr>
         {Object.values(IncomeFieldsEnum).map((field) => (
           <tr key={field}>
             <td> {field}</td>
             <td>
               <Toggle
-                isEnabled={getFieldValue(field).isMonthly}
+                isEnabled={getFieldValue(field)?.isMonthly}
                 onChange={(isMonthly) => changeFieldMonthly(field, isMonthly)}
                 label="Monthly?"
               />

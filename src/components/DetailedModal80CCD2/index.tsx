@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import { RootState } from "../../store";
-import { changeIncomeField } from "../../store/reducers/incomeReducer";
+import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { ModalProps } from "../../type/modal";
 import { currencyFormat } from "../../util/currencyFormat";
 import DetailedModal from "../DetailedModal";
@@ -11,24 +12,32 @@ import Toggle from "../Toggle";
 function DetailedModal80CCD2(props: ModalProps) {
   const { onCancel } = props;
 
+  const detailedExemptions = useSelector(
+    (state: RootState) => state.detailedExemptions
+  );
   const income = useSelector((state: RootState) => state.income);
   const year = useSelector((state: RootState) => state.year);
   const dispatch = useDispatch();
-  const getFieldValue = (field: IncomeFieldsEnum) => {
-    let value = Number(income[field].value) || 0;
-    return { ...income[field], value };
+  const getFieldValue = (field: DetailedExemptionFieldsEnum) => {
+    let value = Number(detailedExemptions[field].value) || 0;
+    return { ...detailedExemptions[field], value };
   };
 
-  const changeFieldMonthly = (field: IncomeFieldsEnum, isMonthly: boolean) => {
+  const changeFieldMonthly = (
+    field: DetailedExemptionFieldsEnum,
+    isMonthly: boolean
+  ) => {
     dispatch(
-      changeIncomeField({
+      changeDetailedExemptionField({
         field,
         isMonthly,
         year,
       })
     );
   };
-  const enabled = getFieldValue(IncomeFieldsEnum.govtEmployee).isMonthly;
+  const enabled = getFieldValue(
+    DetailedExemptionFieldsEnum["80CCD_2-Govt Employee"]
+  )?.isMonthly;
 
   const MAX_LIMIT = useMemo(() => {
     const percent = enabled ? 0.14 : 0.1;
@@ -36,7 +45,7 @@ function DetailedModal80CCD2(props: ModalProps) {
     return Math.floor(
       percent *
         ((Number(salaryBasicDA?.value) || 0) *
-          (salaryBasicDA.isMonthly ? 12 : 1))
+          (salaryBasicDA?.isMonthly ? 12 : 1))
     );
   }, [enabled, income]);
 
@@ -49,7 +58,10 @@ function DetailedModal80CCD2(props: ModalProps) {
             <Toggle
               isEnabled={enabled}
               onChange={(isMonthly) =>
-                changeFieldMonthly(IncomeFieldsEnum.govtEmployee, isMonthly)
+                changeFieldMonthly(
+                  DetailedExemptionFieldsEnum["80CCD_2-Govt Employee"],
+                  isMonthly
+                )
               }
               label="Yes"
             />
