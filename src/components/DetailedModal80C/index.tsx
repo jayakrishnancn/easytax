@@ -136,7 +136,7 @@ function DetailedModal80C(props: ModalProps) {
         </table>
       }
     >
-      <table className="border table-fixed income-table w-full mb-8 text-left">
+      <table className="border-none table-fixed income-table w-full mb-8 text-left">
         <tbody>
           {_80C.map(({ title, id }) => (
             <tr key={id}>
