@@ -39,7 +39,7 @@ function Compare() {
           (better === 1 ? "bg-green-100 border-green-400" : "bg-gray-100")
         }
       >
-        <div>Tax as per Old Regime:</div>
+        <div>Tax as per old regime</div>
         <div className="mb-2"> {taxInOldRegime}</div>
         {better === 1 && (
           <div className="bg-green-600 text-white rounded p-2">
@@ -54,7 +54,7 @@ function Compare() {
           (better === 2 ? "bg-green-100 border-green-400" : "bg-gray-100")
         }
       >
-        <div>Tax as per New Regime:</div>
+        <div>Tax as per new regime</div>
         <div className="mb-2">{taxInNewRegime}</div>
         {better === 2 && (
           <div className="bg-green-600 text-white rounded p-2">
