@@ -1,6 +1,6 @@
 {
   "name": "web-app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "email": "jayakrishnan.cn+git@gmail.com",
     "name": "jayakrishnan",
@@ -30,6 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage": "react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
