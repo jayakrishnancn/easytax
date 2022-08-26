@@ -22,6 +22,7 @@ export const EXEMPTIONS: Exemption[] = [
     title: ExemptionFieldsEnum["80DD"],
     details: "Disabled Dependant Maintenance",
     max: 1_25_000,
+    hasModal: true,
   },
   {
     title: ExemptionFieldsEnum["80CCD_1B_"],

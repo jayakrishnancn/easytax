@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Description from "../components/Description";
 import DetailedModal80C from "../components/DetailedModal80C";
 import DetailedModal80CCD2 from "../components/DetailedModal80CCD2";
+import DetailedModal80DD from "../components/DetailedModal80DD";
 import Input from "../components/Input";
 import ProgressBar from "../components/Progressbar";
 import Toggle from "../components/Toggle";
@@ -109,6 +110,8 @@ function ExemptionsTab() {
         return <DetailedModal80C onCancel={close} />;
       case ExemptionFieldsEnum["80CCD_2_"]:
         return <DetailedModal80CCD2 onCancel={close} />;
+      case ExemptionFieldsEnum["80DD"]:
+        return <DetailedModal80DD onCancel={close} />;
     }
     return null;
   };
