@@ -97,6 +97,9 @@ function App() {
         {tab === 0 && <IncomeTab />}
         {tab === 1 && <ExemptionsTab />}
       </div>
+      <div className="text-center text-gray-400 text-sm font-light">
+        v.{process.env.REACT_APP_GIT_SHA}
+      </div>
     </div>
   );
 }
