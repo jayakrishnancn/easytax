@@ -8,6 +8,10 @@
   @apply p-3;
 }
 
+table td {
+  position: relative;
+}
+
 table.income-table {
   @apply border;
 }

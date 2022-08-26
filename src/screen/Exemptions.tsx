@@ -205,10 +205,11 @@ function ExemptionsTab() {
             isDisabled,
             details,
             hasModal = false,
+            info = null,
           }) => (
             <tr key={title}>
               <td>
-                <Description title={title} details={details} />
+                <Description info={info} title={title} details={details} />
               </td>
               <td>
                 <ProgressBar
