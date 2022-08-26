@@ -1,7 +1,4 @@
 import { Button, Modal } from "flowbite-react";
-import { ModalBody } from "flowbite-react/lib/esm/components/Modal/ModalBody";
-import { ModalFooter } from "flowbite-react/lib/esm/components/Modal/ModalFooter";
-import { ModalHeader } from "flowbite-react/lib/esm/components/Modal/ModalHeader";
 import { useState } from "react";
 
 interface DescriptionProps {
@@ -29,20 +26,20 @@ function Description(props: DescriptionProps) {
       </div>
       <div className="text-gray-400 text-xs">{details}</div>
       <Modal show={!!showInfo}>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalBody>
+        <Modal.Header>{title}</Modal.Header>
+        <Modal.Body>
           <div
             style={{ maxHeight: "40vh", overflow: "auto" }}
             className="whitespace-pre-line"
           >
             {info}
           </div>
-        </ModalBody>
-        <ModalFooter>
+        </Modal.Body>
+        <Modal.Footer>
           <div className="flex justify-end w-full">
             <Button onClick={() => setShowInfo(null)}>Close</Button>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </Modal>
     </div>
   );
