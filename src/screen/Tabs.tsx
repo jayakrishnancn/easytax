@@ -11,7 +11,7 @@ import { resetExemptions } from "../store/reducers/exemptionsReducer";
 import { resetIncome } from "../store/reducers/incomeReducer";
 import { loadYear } from "../store/reducers/taxYearReducer";
 import { FORMATTED_FY, getAllFY } from "../util/calender";
-import ExemptionsTab from "./Exemptions";
+import ExemptionsTab from "./ExemptionsTab";
 import IncomeTab from "./IncomeTab";
 
 function Tabs() {
