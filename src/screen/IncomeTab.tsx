@@ -45,7 +45,9 @@ function IncomeTab() {
       <thead>
         <tr className="bg-blue-600 text-white">
           <td colSpan={2}>Total Income</td>
-          <td className="text-right">{totalIncome}</td>
+          <td aria-label="Total income" className="text-right">
+            {totalIncome}
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -54,6 +56,7 @@ function IncomeTab() {
             <td> {field}</td>
             <td>
               <Toggle
+                testId={field}
                 isEnabled={getFieldValue(field)?.isMonthly}
                 onChange={(isMonthly) => changeFieldMonthly(field, isMonthly)}
                 label="Monthly?"
@@ -61,6 +64,7 @@ function IncomeTab() {
             </td>
             <td>
               <Input
+                testId={field}
                 value={getFieldValue(field).value}
                 onChange={(value) => {
                   changeField(field, value);
