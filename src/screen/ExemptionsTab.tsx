@@ -241,6 +241,7 @@ function ExemptionsTab() {
                   />
                   {hasModal && (
                     <CgMoreR
+                      data-testid={"exemption-details-" + title}
                       onClick={() => setDetailedModal(title)}
                       size={"2em"}
                       className="cursor-pointer"

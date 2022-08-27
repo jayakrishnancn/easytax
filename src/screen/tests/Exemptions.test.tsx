@@ -1,19 +1,19 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { ExemptionFieldsEnum } from "../../enum/exemptionFields";
+import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import store from "../../store";
 import {
   changeExemptionField,
   resetExemptions,
 } from "../../store/reducers/exemptionsReducer";
+import { changeIncomeField } from "../../store/reducers/incomeReducer";
+import { ExemptionsType } from "../../store/reducers/type";
 import {
   renderWithStore,
   resetExemptionsForTest,
   waitForStore,
 } from "../../util/testUtil";
 import ExemptionsTab from "../ExemptionsTab";
-import { ExemptionsType } from "../../store/reducers/type";
-import { changeIncomeField } from "../../store/reducers/incomeReducer";
-import { IncomeFieldsEnum } from "../../enum/incomeFields";
 
 describe("<ExemptionsTab />", () => {
   beforeEach(() => {
@@ -159,5 +159,38 @@ describe("<ExemptionsTab />", () => {
       "₹1,50,000.00"
     );
     expect(screen.getByTestId("input-Rent Paid")).toHaveValue("15000");
+  });
+
+  test("fire event change is metro to true", () => {
+    renderWithStore(<ExemptionsTab />);
+    expect(
+      screen.getByTestId("toggle-input-" + ExemptionFieldsEnum["Is metro city"])
+    ).not.toBeChecked();
+    fireEvent.click(
+      screen.getByTestId("toggle-input-" + ExemptionFieldsEnum["Is metro city"])
+    );
+    expect(
+      screen.getByTestId("toggle-input-" + ExemptionFieldsEnum["Is metro city"])
+    ).toBeChecked();
+
+    expect(screen.getByText("50% of Basic + DA in Metros")).toBeInTheDocument();
+  });
+
+  test("open detailed modal 80C", () => {
+    renderWithStore(<ExemptionsTab />);
+
+    const popup = "exemption-details-80C";
+
+    expect(screen.getByTestId(popup)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId(popup));
+
+    expect(screen.getByText("Employee provident fund")).toBeInTheDocument();
+    expect(screen.getByText("Close")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Close"));
+    expect(
+      screen.queryByText("Employee provident fund")
+    ).not.toBeInTheDocument();
   });
 });
