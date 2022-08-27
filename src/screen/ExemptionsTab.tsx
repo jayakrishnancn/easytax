@@ -134,8 +134,10 @@ function ExemptionsTab() {
     <table className="table-fixed income-table w-full mt-4 mb-8 text-left">
       <thead>
         <tr className="bg-orange-600 text-white">
-          <td colSpan={2}>Total Exemptions & deductions</td>
-          <td className="text-right">{totalExemptions}</td>
+          <td colSpan={2}>Total Exemptions & Deductions</td>
+          <td data-testid="Total Exemptions" className="text-right">
+            {totalExemptions}
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -143,6 +145,7 @@ function ExemptionsTab() {
           <td>HRA</td>
           <td>
             <Toggle
+              testId={ExemptionFieldsEnum["Is metro city"]}
               isEnabled={exemptions[ExemptionFieldsEnum["Is metro city"]]}
               onChange={(value: boolean) => {
                 changeField(ExemptionFieldsEnum["Is metro city"], value);
@@ -164,6 +167,7 @@ function ExemptionsTab() {
           </td>
           <td>
             <Input
+              testId={ExemptionFieldsEnum["Rent paid"]}
               value={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
               onChange={(value) => {
                 changeField(ExemptionFieldsEnum["Rent paid"], value);
@@ -178,7 +182,9 @@ function ExemptionsTab() {
               text="House Rent Paid - 10% of Basic + DA"
             />
           </td>
-          <td>{currencyFormat(hra.A_10perBaseAndDA)}</td>
+          <td data-testid="House Rent Paid - 10% of Basic + DA">
+            {currencyFormat(hra.A_10perBaseAndDA)}
+          </td>
         </tr>
         <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
@@ -188,13 +194,17 @@ function ExemptionsTab() {
               ${isMetroCity ? "" : " Non "} Metros`}
             />
           </td>
-          <td>{currencyFormat(hra.B_50PerBaseAndDA)}</td>
+          <td data-testid={"Basic + DA in city"}>
+            {currencyFormat(hra.B_50PerBaseAndDA)}
+          </td>
         </tr>
         <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
             <WithTick if={hra.current === 2} text="HRA Received" />
           </td>
-          <td>{currencyFormat(hra.HRAReceived)}</td>
+          <td data-testid={"HRA Received"}>
+            {currencyFormat(hra.HRAReceived)}
+          </td>
         </tr>
 
         {EXEMPTIONS.map(
@@ -221,6 +231,7 @@ function ExemptionsTab() {
               <td>
                 <div className="flex justify-between items-center gap-2">
                   <Input
+                    testId={title}
                     disabled={isDisabled}
                     value={value ?? getFieldValue(title)}
                     onChange={(value) => {
