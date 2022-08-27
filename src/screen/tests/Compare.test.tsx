@@ -33,7 +33,7 @@ describe("<Description />", () => {
     store.dispatch(
       changeIncomeField({
         field: IncomeFieldsEnum.salary_basicDA,
-        value: 5000000,
+        value: 500000,
         isMonthly: false,
       })
     );
