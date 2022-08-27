@@ -48,8 +48,7 @@ function Tabs() {
               onClick={() => setTab(0)}
               type="button"
               role="tab"
-              aria-controls="profile"
-              aria-selected="true"
+              aria-selected={tab === 0 ? "true" : "false"}
             >
               Income
             </button>
@@ -62,8 +61,7 @@ function Tabs() {
               onClick={() => setTab(1)}
               type="button"
               role="tab"
-              aria-controls="dashboard"
-              aria-selected="false"
+              aria-selected={tab === 0 ? "true" : "false"}
             >
               Exemptions & Deductions
             </button>
