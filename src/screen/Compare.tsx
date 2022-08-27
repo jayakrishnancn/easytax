@@ -38,7 +38,7 @@ function Compare() {
     { title: "Tax as per old regime", tax: taxInOldRegime, id: 1 },
     { title: "Tax as per new regime", tax: taxInNewRegime, id: 2 },
   ];
-  console.log(betterId);
+
   return (
     <div className="h-28 text-center flex justify-center mt-4 mb-4 max-w-lg mx-auto">
       {tabs.map(({ title, tax, id }) => (
