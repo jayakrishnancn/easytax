@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { saveExemptionData, STORE_KEYS } from "../../services/exemptions";
-import { FORMATTED_FY } from "../../util/calender";
+import { getFormattedYear } from "../../util/calender";
 import { getDetailedExemptionData } from "./../../services/exemptions";
 import {
   ChangeDetailedExemptionFieldAction,
@@ -10,7 +10,7 @@ import {
 export const detailedExemptionsSlice = createSlice({
   name: "exemptions",
   initialState: getDetailedExemptionData(
-    FORMATTED_FY,
+    getFormattedYear(),
     STORE_KEYS.DetailedExemptions
   ),
   reducers: {
@@ -25,7 +25,7 @@ export const detailedExemptionsSlice = createSlice({
       const {
         value = 0,
         isMonthly = false,
-        year = FORMATTED_FY,
+        year = getFormattedYear(),
       } = {
         ...state[field],
         ...action.payload,

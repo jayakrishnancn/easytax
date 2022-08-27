@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "../components/Select";
 import {
@@ -10,7 +10,7 @@ import { resetDeailedExemptions } from "../store/reducers/detailedExemptionsRedu
 import { resetExemptions } from "../store/reducers/exemptionsReducer";
 import { resetIncome } from "../store/reducers/incomeReducer";
 import { loadYear } from "../store/reducers/taxYearReducer";
-import { FORMATTED_FY, getAllFY } from "../util/calender";
+import { getAllFY, getFormattedYear } from "../util/calender";
 import ExemptionsTab from "./ExemptionsTab";
 import IncomeTab from "./IncomeTab";
 
@@ -30,6 +30,8 @@ function Tabs() {
     dispatch(resetExemptions(newExemptionsData));
     dispatch(resetDeailedExemptions(newDetailedExemptionsData));
   };
+
+  const FORMATTEDFY = useMemo(getFormattedYear, []);
 
   return (
     <>
@@ -71,7 +73,8 @@ function Tabs() {
             role="presentation"
           >
             <Select
-              defaultValue={FORMATTED_FY}
+              data-testid="select year"
+              defaultValue={FORMATTEDFY}
               values={AVAILABLE_AY}
               onChange={handleYearChange}
             />
