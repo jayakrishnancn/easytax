@@ -6,7 +6,7 @@ interface Props {
 }
 
 function ProgressBar(props: Props) {
-  let { current = 0, max = 1 } = props;
+  let { current, max } = props;
   if (current > max) current = max;
   let width = `${(current / (max || 1)) * 100}%`;
   if (max === Infinity) {

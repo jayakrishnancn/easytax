@@ -19,12 +19,15 @@ describe("<App /> test timer on 2025-01-02", () => {
     expect(screen.getByTestId("select year")).not.toHaveValue(`FY 3031-3032`);
   });
 
-  test("change value of year dropdown", async () => {
+  test("change value of year dropdown", () => {
     renderWithStore(<App />);
     expect(screen.getByTestId("select year")).toHaveValue(`FY 3030-3031`);
     userEvent.selectOptions(screen.getByTestId("select year"), "FY 2020-2021");
 
     expect(screen.getByTestId("select year")).toHaveValue(`FY 2020-2021`);
+
+    userEvent.selectOptions(screen.getByTestId("select year"), "FY 2030-2031");
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 2030-2031`);
   });
 });
 

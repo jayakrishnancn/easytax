@@ -36,6 +36,7 @@ function DetailedModal80DD(props: ModalProps) {
           <td>Disability is more than 80%?</td>
           <td className="items-center flex justify-center">
             <Toggle
+              testId={DetailedExemptionFieldsEnum["80DD-severe disability"]}
               isEnabled={!!detailedExemptions[FIELD]?.isMonthly}
               onChange={(isMonthly) => changeFieldMonthly(FIELD, isMonthly)}
               label="Yes"

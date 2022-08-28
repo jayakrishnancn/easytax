@@ -1,5 +1,5 @@
 interface Props {
-  onChange?: (e: number) => void;
+  onChange: (e: number) => void;
   value: number | string;
   min?: number;
   max?: number;
@@ -9,7 +9,7 @@ interface Props {
 
 function Input(props: Props) {
   const {
-    onChange = () => {},
+    onChange,
     min = 0,
     max = Infinity,
     disabled = false,

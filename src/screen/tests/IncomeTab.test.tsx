@@ -1,4 +1,5 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import store from "../../store";
 import {
@@ -83,7 +84,35 @@ describe("<IncomeTab />", () => {
       expect(screen.getByTestId(testId)).not.toBeChecked();
       expect(screen.getByTestId(valueId)).toHaveValue("0");
     });
+  });
 
-    await waitForStore();
+  test("change field values", async () => {
+    renderWithStore(<IncomeTab />);
+
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).not.toBeChecked();
+    expect(
+      screen.getByTestId("input-" + IncomeFieldsEnum.salary_basicDA)
+    ).toHaveValue("0");
+
+    fireEvent.click(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    );
+
+    userEvent.paste(
+      screen.getByTestId("input-" + IncomeFieldsEnum.salary_basicDA),
+      "1000"
+    );
+
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).toBeChecked();
+    expect(
+      screen.getByTestId("input-" + IncomeFieldsEnum.salary_basicDA)
+    ).toHaveValue("1000");
+    expect(screen.getByLabelText("Total income")).toHaveTextContent(
+      "₹12,000.00"
+    );
   });
 });

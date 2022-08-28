@@ -56,7 +56,7 @@ describe("<DetailedModal80C />", () => {
     ).toBeChecked();
 
     // change user input
-    userEvent.type(
+    userEvent.paste(
       screen.getByTestId("input-_80C-Employee provident fund"),
       "1000"
     );
