@@ -1,11 +1,11 @@
 interface Props {
   onChange: (arg0: boolean) => void;
   isEnabled: boolean;
-  label?: string;
-  testId?: string;
+  label: string;
+  testId: string;
 }
 function Toggle(props: Props) {
-  const { onChange, isEnabled, label = "", testId = label } = props;
+  const { onChange, isEnabled, label, testId } = props;
 
   return (
     <div className="p-2 h-full flex justify-center items-center">

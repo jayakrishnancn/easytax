@@ -56,6 +56,7 @@ function DetailedModal80CCD2(props: ModalProps) {
           <td>Are you a central or state government employee?</td>
           <td className="items-center flex justify-center">
             <Toggle
+              testId={DetailedExemptionFieldsEnum["80CCD_2-Govt Employee"]}
               isEnabled={enabled}
               onChange={(isMonthly) =>
                 changeFieldMonthly(
