@@ -15,6 +15,7 @@ function Description(props: DescriptionProps) {
         {title}
         {info && (
           <span
+            aria-label="more-info"
             onClick={() => {
               setShowInfo(info);
             }}
@@ -31,13 +32,16 @@ function Description(props: DescriptionProps) {
           <div
             style={{ maxHeight: "40vh", overflow: "auto" }}
             className="whitespace-pre-line"
+            data-testid="more-details-of-info"
           >
             {info}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="flex justify-end w-full">
-            <Button onClick={() => setShowInfo(null)}>Close</Button>
+            <Button data-testid="modal-close" onClick={() => setShowInfo(null)}>
+              Close
+            </Button>
           </div>
         </Modal.Footer>
       </Modal>

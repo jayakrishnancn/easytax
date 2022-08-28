@@ -1,17 +1,30 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import App from "./App";
-import { renderWithStore } from "./util/testUtil";
+import { renderWithStore, waitForStore } from "./util/testUtil";
 import MockDate from "mockdate";
+import userEvent from "@testing-library/user-event";
 
 describe("<App /> test timer on 2025-01-02", () => {
-  test("change date and test dropdown values", () => {
+  beforeAll(() => {
     MockDate.set("3031-01-02");
+  });
+  afterAll(() => {
+    MockDate.reset();
+  });
+
+  test("change date and test dropdown values", () => {
     renderWithStore(<App />);
 
     expect(screen.getByTestId("select year")).toHaveValue(`FY 3030-3031`);
     expect(screen.getByTestId("select year")).not.toHaveValue(`FY 3031-3032`);
+  });
 
-    MockDate.reset();
+  test("change value of year dropdown", async () => {
+    renderWithStore(<App />);
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 3030-3031`);
+    userEvent.selectOptions(screen.getByTestId("select year"), "FY 2020-2021");
+
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 2020-2021`);
   });
 });
 
