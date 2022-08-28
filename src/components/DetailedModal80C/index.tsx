@@ -5,7 +5,6 @@ import { ExemptionFieldsEnum } from "../../enum/exemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { changeExemptionField } from "../../store/reducers/exemptionsReducer";
-import { ModalProps } from "../../type/modal";
 import { currencyFormat } from "../../util/currencyFormat";
 import DetailedModal from "../DetailedModal";
 import Input from "../Input";
@@ -13,8 +12,10 @@ import ProgressBar from "../Progressbar";
 import Toggle from "../Toggle";
 
 const MAX = 1_50_000;
-
-function DetailedModal80C(props: ModalProps) {
+interface DetailedModal80CProps {
+  onCancel: () => void;
+}
+function DetailedModal80C(props: DetailedModal80CProps) {
   const { onCancel } = props;
   const dispatch = useDispatch();
 
@@ -122,11 +123,13 @@ function DetailedModal80C(props: ModalProps) {
                   <tbody>
                     <tr>
                       <td className="text-right pr-2">Total</td>
-                      <td>{currencyFormat(current)}</td>
+                      <td aria-label="Total">{currencyFormat(current)}</td>
                     </tr>
                     <tr>
                       <td className="text-right pr-2">Remaining</td>
-                      <td>{currencyFormat(Math.max(0, MAX - current))}</td>
+                      <td aria-label="Remaining">
+                        {currencyFormat(Math.max(0, MAX - current))}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -143,6 +146,7 @@ function DetailedModal80C(props: ModalProps) {
               <td>{title}</td>
               <td>
                 <Toggle
+                  testId={id}
                   isEnabled={!!exemptions[id]?.isMonthly}
                   onChange={(value: boolean) => handleToggleChange(id, value)}
                   label="Monthly?"
@@ -150,7 +154,8 @@ function DetailedModal80C(props: ModalProps) {
               </td>
               <td>
                 <Input
-                  value={exemptions[id]?.value}
+                  testId={id}
+                  value={exemptions[id]?.value || 0}
                   onChange={(value: number) => handleValueChange(id, value)}
                 />
               </td>

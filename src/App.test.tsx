@@ -1,8 +1,8 @@
-import { fireEvent, screen } from "@testing-library/react";
-import App from "./App";
-import { renderWithStore, waitForStore } from "./util/testUtil";
-import MockDate from "mockdate";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import MockDate from "mockdate";
+import App from "./App";
+import { renderWithStore } from "./util/testUtil";
 
 describe("<App /> test timer on 2025-01-02", () => {
   beforeAll(() => {
