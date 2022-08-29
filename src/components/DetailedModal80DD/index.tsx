@@ -50,9 +50,11 @@ function DetailedModal80DD(props: ModalProps) {
   const footer = (
     <div>
       Max Limit :{" "}
-      {currencyFormat(
-        !!detailedExemptions[FIELD]?.isMonthly ? 1_25_000 : 75_000
-      )}{" "}
+      <span data-testid="max-limit">
+        {currencyFormat(
+          !!detailedExemptions[FIELD]?.isMonthly ? 1_25_000 : 75_000
+        )}{" "}
+      </span>
     </div>
   );
 
