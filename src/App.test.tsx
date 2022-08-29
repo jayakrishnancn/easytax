@@ -1,7 +1,8 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import MockDate from "mockdate";
 import App from "./App";
+import { IncomeFieldsEnum } from "./enum/incomeFields";
 import { renderWithStore } from "./util/testUtil";
 
 describe("<App /> test timer on 2025-01-02", () => {
@@ -28,6 +29,33 @@ describe("<App /> test timer on 2025-01-02", () => {
 
     userEvent.selectOptions(screen.getByTestId("select year"), "FY 2030-2031");
     expect(screen.getByTestId("select year")).toHaveValue(`FY 2030-2031`);
+  });
+
+  test("change value of year dropdown back to prev and check", () => {
+    renderWithStore(<App />);
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 3030-3031`);
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).not.toBeChecked();
+
+    fireEvent.click(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    );
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).toBeChecked();
+
+    userEvent.selectOptions(screen.getByTestId("select year"), "FY 2020-2021");
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 2020-2021`);
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).not.toBeChecked();
+
+    userEvent.selectOptions(screen.getByTestId("select year"), "FY 2030-2031");
+    expect(screen.getByTestId("select year")).toHaveValue(`FY 2030-2031`);
+    expect(
+      screen.getByTestId("toggle-input-" + IncomeFieldsEnum.salary_basicDA)
+    ).toBeChecked();
   });
 });
 

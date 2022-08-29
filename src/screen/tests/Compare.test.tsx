@@ -3,7 +3,7 @@ import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import store from "../../store";
 import { changeIncomeField } from "../../store/reducers/incomeReducer";
 import { currencyFormat } from "../../util/currencyFormat";
-import { renderWithStore } from "../../util/testUtil";
+import { renderWithStore, waitForStore } from "../../util/testUtil";
 import Compare from "../Compare";
 
 const oldTestId = "Tax as per old regime";
@@ -133,7 +133,7 @@ describe("<Description />", () => {
         isMonthly: false,
       })
     );
-    await new Promise((r) => setTimeout(r, 5));
+    await waitForStore();
     expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(
       5000001
     );
@@ -156,7 +156,7 @@ describe("<Description />", () => {
         isMonthly: false,
       })
     );
-    await new Promise((r) => setTimeout(r, 5));
+    await waitForStore();
     expect(store.getState().income["Salary (Basic + DA)"].value).toEqual(0);
     expect(screen.queryByLabelText(oldTestId)).toHaveTextContent("₹0.00");
     expect(screen.queryByLabelText(newTestId)).toHaveTextContent("₹0.00");
