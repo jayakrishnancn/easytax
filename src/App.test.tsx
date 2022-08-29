@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import MockDate from "mockdate";
 import App from "./App";
 import { IncomeFieldsEnum } from "./enum/incomeFields";
-import { renderWithStore } from "./util/testUtil";
+import { renderWithStore } from "../__jest__/testUtil";
 
 describe("<App /> test timer on 2025-01-02", () => {
   beforeAll(() => {
