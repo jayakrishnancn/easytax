@@ -14,6 +14,7 @@ import {
   waitForStore,
 } from "../../../__jest__/testUtil";
 import ExemptionsTab from "../ExemptionsTab";
+import userEvent from "@testing-library/user-event";
 
 describe("<ExemptionsTab />", () => {
   beforeEach(() => {
@@ -135,13 +136,7 @@ describe("<ExemptionsTab />", () => {
         value: 150000,
       })
     );
-    store.dispatch(
-      changeExemptionField({
-        field: ExemptionFieldsEnum["Rent paid"],
-        value: 15000,
-      })
-    );
-    await waitForStore();
+    userEvent.paste(screen.getByTestId("input-Rent Paid"), "15000");
 
     const hrafieldsMetro = [
       "House Rent Paid - 10% of Basic + DA",
@@ -203,5 +198,10 @@ describe("<ExemptionsTab />", () => {
       fireEvent.click(screen.getByText("Close"));
       expect(screen.queryByText(field)).not.toBeInTheDocument();
     });
+  });
+  test("change any input", () => {
+    renderWithStore(<ExemptionsTab />);
+    userEvent.paste(screen.getByTestId("input-80G"), "15000");
+    expect(screen.getByTestId("input-80G")).toHaveValue("15000");
   });
 });
