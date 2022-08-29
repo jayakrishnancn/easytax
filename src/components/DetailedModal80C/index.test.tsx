@@ -1,7 +1,7 @@
 import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DetailedModal80C from ".";
-import { renderWithStore } from "../../util/testUtil";
+import { renderWithStore } from "../../../__jest__/testUtil";
 
 describe("<DetailedModal80C />", () => {
   test("Expect to not log errors in console", () => {

@@ -12,7 +12,7 @@ import {
   renderWithStore,
   resetExemptionsForTest,
   waitForStore,
-} from "../../util/testUtil";
+} from "../../../__jest__/testUtil";
 import ExemptionsTab from "../ExemptionsTab";
 
 describe("<ExemptionsTab />", () => {

@@ -3,7 +3,7 @@ import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import store from "../../store";
 import { changeIncomeField } from "../../store/reducers/incomeReducer";
 import { currencyFormat } from "../../util/currencyFormat";
-import { renderWithStore, waitForStore } from "../../util/testUtil";
+import { renderWithStore, waitForStore } from "../../../__jest__/testUtil";
 import Compare from "../Compare";
 
 const oldTestId = "Tax as per old regime";

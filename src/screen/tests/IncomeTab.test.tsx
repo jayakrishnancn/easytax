@@ -7,7 +7,7 @@ import {
   resetIncome,
 } from "../../store/reducers/incomeReducer";
 import { IncomeFields } from "../../type/income";
-import { renderWithStore, waitForStore } from "../../util/testUtil";
+import { renderWithStore, waitForStore } from "../../../__jest__/testUtil";
 import IncomeTab from "../IncomeTab";
 
 describe("<IncomeTab />", () => {

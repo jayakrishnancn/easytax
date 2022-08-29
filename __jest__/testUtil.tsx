@@ -1,13 +1,13 @@
 import { render } from "@testing-library/react";
 import { ReactNode } from "react";
 import { Provider } from "react-redux";
-import { ExemptionFieldsEnum } from "../enum/exemptionFields";
-import { IncomeFieldsEnum } from "../enum/incomeFields";
-import store from "../store";
-import { resetExemptions } from "../store/reducers/exemptionsReducer";
-import { resetIncome } from "../store/reducers/incomeReducer";
-import { ExemptionsType } from "../store/reducers/type";
-import { IncomeFields } from "../type/income";
+import { ExemptionFieldsEnum } from "../src/enum/exemptionFields";
+import { IncomeFieldsEnum } from "../src/enum/incomeFields";
+import store from "../src/store";
+import { resetExemptions } from "../src/store/reducers/exemptionsReducer";
+import { resetIncome } from "../src/store/reducers/incomeReducer";
+import { ExemptionsType } from "../src/store/reducers/type";
+import { IncomeFields } from "../src/type/income";
 export function renderWithStore(component: ReactNode) {
   return render(<Provider store={store}>{component}</Provider>);
 }

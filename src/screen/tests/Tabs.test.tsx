@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react";
-import { renderWithStore } from "../../util/testUtil";
+import { renderWithStore } from "../../../__jest__/testUtil";
 import Tabs from "../Tabs";
 
 jest.mock("../IncomeTab.tsx", () => () => <div>IncomeTab-mocked</div>);

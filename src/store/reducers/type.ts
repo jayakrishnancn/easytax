@@ -47,7 +47,7 @@ export type ChangeDetailedExemptionFieldAction = {
   payload: {
     field: DetailedExemptionFieldsEnum;
     value?: number;
-    year?: string;
+    year: string;
     isMonthly?: boolean;
   };
   type: string;

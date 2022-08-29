@@ -25,7 +25,7 @@ export const detailedExemptionsSlice = createSlice({
       const {
         value = 0,
         isMonthly = false,
-        year = getFormattedYear(),
+        year,
       } = {
         ...state[field],
         ...action.payload,
