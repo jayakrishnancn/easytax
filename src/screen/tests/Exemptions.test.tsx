@@ -176,21 +176,32 @@ describe("<ExemptionsTab />", () => {
     expect(screen.getByText("50% of Basic + DA in Metros")).toBeInTheDocument();
   });
 
-  test("open detailed modal 80C", () => {
+  test("open detailed modal 80C, 80CCD2 , 80D", () => {
     renderWithStore(<ExemptionsTab />);
+    const ids = [
+      { id: ExemptionFieldsEnum["80C"], field: "Employee provident fund" },
+      {
+        id: ExemptionFieldsEnum["80CCD_2_"],
+        field: "Are you a central or state government employee?",
+      },
+      {
+        id: ExemptionFieldsEnum["80DD"],
+        field: "Disability is more than 80%?",
+      },
+    ];
 
-    const popup = "exemption-details-80C";
+    ids.forEach(({ id, field }) => {
+      const popup = "exemption-details-" + id;
 
-    expect(screen.getByTestId(popup)).toBeInTheDocument();
+      expect(screen.getByTestId(popup)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByTestId(popup));
+      fireEvent.click(screen.getByTestId(popup));
 
-    expect(screen.getByText("Employee provident fund")).toBeInTheDocument();
-    expect(screen.getByText("Close")).toBeInTheDocument();
+      expect(screen.getByText(field)).toBeInTheDocument();
+      expect(screen.getByText("Close")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText("Close"));
-    expect(
-      screen.queryByText("Employee provident fund")
-    ).not.toBeInTheDocument();
+      fireEvent.click(screen.getByText("Close"));
+      expect(screen.queryByText(field)).not.toBeInTheDocument();
+    });
   });
 });

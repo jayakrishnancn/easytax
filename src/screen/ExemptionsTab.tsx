@@ -127,7 +127,6 @@ function ExemptionsTab() {
       case ExemptionFieldsEnum["80DD"]:
         return <DetailedModal80DD onCancel={close} />;
     }
-    return null;
   };
 
   return (

@@ -72,7 +72,12 @@ function DetailedModal80CCD2(props: ModalProps) {
     </table>
   );
 
-  const footer = <div>Max Limit : {currencyFormat(MAX_LIMIT)} </div>;
+  const footer = (
+    <div>
+      Max Limit :{" "}
+      <span data-testid="max-limit">{currencyFormat(MAX_LIMIT)}</span>
+    </div>
+  );
 
   return (
     <DetailedModal
