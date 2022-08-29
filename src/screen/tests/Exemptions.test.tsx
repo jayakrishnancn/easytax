@@ -15,6 +15,8 @@ import {
 } from "../../../__jest__/testUtil";
 import ExemptionsTab from "../ExemptionsTab";
 import userEvent from "@testing-library/user-event";
+import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 
 describe("<ExemptionsTab />", () => {
   beforeEach(() => {
@@ -203,5 +205,18 @@ describe("<ExemptionsTab />", () => {
     renderWithStore(<ExemptionsTab />);
     userEvent.paste(screen.getByTestId("input-80G"), "15000");
     expect(screen.getByTestId("input-80G")).toHaveValue("15000");
+  });
+  test("severe disability", async () => {
+    store.dispatch(
+      changeDetailedExemptionField({
+        field: DetailedExemptionFieldsEnum["80DD-severe disability"],
+
+        isMonthly: true,
+        year: store.getState().year,
+      })
+    );
+    renderWithStore(<ExemptionsTab />);
+
+    expect(screen.getAllByText("₹1,25,000.00").length).toEqual(2);
   });
 });
