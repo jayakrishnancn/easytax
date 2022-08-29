@@ -45,7 +45,7 @@ function DetailedModal80CCD2(props: ModalProps) {
     return Math.floor(
       percent *
         ((Number(salaryBasicDA?.value) || 0) *
-          (salaryBasicDA?.isMonthly ? 12 : 1))
+          (salaryBasicDA.isMonthly ? 12 : 1))
     );
   }, [enabled, income]);
 

@@ -42,4 +42,17 @@ describe("<DetailedModal80CCD2 />", () => {
 
     expect(screen.getByTestId("max-limit")).toHaveTextContent("₹14,000.00");
   });
+
+  test("check calculation with monthly basicDA", () => {
+    store.dispatch(
+      changeIncomeField({
+        field: IncomeFieldsEnum.salary_basicDA,
+        value: 100000,
+        isMonthly: true,
+      })
+    );
+    renderWithStore(<DetailedModal80CCD2 onCancel={() => {}} />);
+
+    expect(screen.getByTestId("max-limit")).toHaveTextContent("₹1,68,000.00");
+  });
 });
