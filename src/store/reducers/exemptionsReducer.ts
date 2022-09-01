@@ -1,20 +1,17 @@
-import { FORMATTED_FY } from "./../../util/calender";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  initialDefaultState,
-  saveExemptionData,
-} from "../../services/exemptions";
+import { getExemptionData, saveExemptionData } from "../../services/exemptions";
+import { getFormattedYear } from "./../../util/calender";
 import { ChangeExemptionFieldAction, InitializeExemptionAction } from "./type";
 
 export const exemptionsSlice = createSlice({
   name: "exemptions",
-  initialState: initialDefaultState,
+  initialState: getExemptionData(getFormattedYear()),
   reducers: {
     resetExemptions(state, action: InitializeExemptionAction) {
       return { ...action.payload };
     },
     changeExemptionField: (state, action: ChangeExemptionFieldAction) => {
-      const { field, value, year = FORMATTED_FY } = action.payload;
+      const { field, value, year = getFormattedYear() } = action.payload;
       const newState = {
         ...state,
         [field]: value,

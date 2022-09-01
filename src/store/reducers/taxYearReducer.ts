@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FORMATTED_FY } from "../../util/calender";
+import { getFormattedYear } from "../../util/calender";
 
 export type taxYearAction = {
   payload: string;
@@ -8,7 +8,7 @@ export type taxYearAction = {
 
 export const taxYearSlice = createSlice({
   name: "year",
-  initialState: FORMATTED_FY,
+  initialState: getFormattedYear(),
   reducers: {
     loadYear: (state, action: taxYearAction) => {
       return action.payload;

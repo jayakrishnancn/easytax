@@ -1,6 +1,6 @@
 {
   "name": "web-app",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "author": {
     "email": "jayakrishnan.cn+git@gmail.com",
     "name": "jayakrishnan",
@@ -18,6 +18,7 @@
     "@types/react-dom": "^18.0.6",
     "flowbite": "^1.5.2",
     "flowbite-react": "^0.1.10",
+    "mockdate": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
@@ -30,6 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage": "react-scripts test  --watchAll=false --bail --coverage ",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -52,7 +54,24 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
+    "jest-localstorage-mock": "^2.4.22",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "./src/index.tsx",
+      "./src/reportWebVitals.ts",
+      "./src/testutils/*"
+    ],
+    "resetMocks": false,
+    "coverageThreshold": {
+      "global": {
+        "statements": 95,
+        "branches": 95,
+        "functions": 95,
+        "lines": 95
+      }
+    }
   }
 }

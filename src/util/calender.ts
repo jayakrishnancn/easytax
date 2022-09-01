@@ -20,5 +20,7 @@ export function getcurrentFY() {
   return currentYear;
 }
 
-const year = getcurrentFY();
-export const FORMATTED_FY = `FY ${year}-${year + 1}`;
+export function getFormattedYear() {
+  const year = getcurrentFY();
+  return `FY ${year}-${year + 1}`;
+}

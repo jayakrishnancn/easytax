@@ -1,13 +1,50 @@
+import { Button, Modal } from "flowbite-react";
+import { useState } from "react";
+
 interface DescriptionProps {
   title: string;
   details?: string;
+  info?: string | null;
 }
 function Description(props: DescriptionProps) {
-  const { title, details } = props;
+  const { title, details, info } = props;
+  const [showInfo, setShowInfo] = useState<string | null>(null);
   return (
     <div>
-      <div>{title}</div>
+      <div>
+        {title}
+        {info && (
+          <span
+            aria-label="more-info"
+            onClick={() => {
+              setShowInfo(info);
+            }}
+            className="ml-2 border cursor-pointer border-blue-200 text-blue-600 text-xs font-bold rounded-full bg-blue-100 px-2"
+          >
+            ?
+          </span>
+        )}
+      </div>
       <div className="text-gray-400 text-xs">{details}</div>
+      <Modal show={!!showInfo}>
+        <Modal.Header>{title}</Modal.Header>
+        <Modal.Body>
+          <div
+            style={{ maxHeight: "40vh", overflow: "auto" }}
+            className="whitespace-pre-line"
+            data-testid="more-details-of-info"
+          >
+            {info}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="flex justify-end w-full">
+            <Button data-testid="modal-close" onClick={() => setShowInfo(null)}>
+              Close
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

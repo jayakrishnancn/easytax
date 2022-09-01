@@ -10,6 +10,7 @@ import ProgressBar from "../components/Progressbar";
 import Toggle from "../components/Toggle";
 import WithTick from "../components/WithTick";
 import { EXEMPTIONS } from "../constants/exemptionFields";
+import { DetailedExemptionFieldsEnum } from "../enum/detailedExemptionFields";
 import { ExemptionFieldsEnum } from "../enum/exemptionFields";
 import { RootState } from "../store";
 import { changeExemptionField } from "../store/reducers/exemptionsReducer";
@@ -22,6 +23,9 @@ function ExemptionsTab() {
   const [detailedModal, setDetailedModal] =
     useState<ExemptionFieldsEnum | null>(null);
   const exemptions = useSelector((state: RootState) => state.exemptions);
+  const detailedExemptions = useSelector(
+    (state: RootState) => state.detailedExemptions
+  );
   const year = useSelector((state: RootState) => state.year);
   const income = useSelector((state: RootState) => state.income);
 
@@ -67,8 +71,8 @@ function ExemptionsTab() {
     const salaryHRA = income["Salary (HRA)"];
 
     const tmp = new HRA(
-      (Number(salaryBasicDA?.value) || 0) * (salaryBasicDA.isMonthly ? 12 : 1),
-      (Number(salaryHRA?.value) || 0) * (salaryHRA.isMonthly ? 12 : 1),
+      (Number(salaryBasicDA?.value) || 0) * (salaryBasicDA?.isMonthly ? 12 : 1),
+      (Number(salaryHRA?.value) || 0) * (salaryHRA?.isMonthly ? 12 : 1),
       rentPaid,
       isMetro
     );
@@ -88,18 +92,28 @@ function ExemptionsTab() {
 
   const getMaximumValue = useCallback(
     (title: ExemptionFieldsEnum): number | null => {
-      const percent = income["Govt Employee"].isMonthly ? 0.14 : 0.1;
+      const percent = detailedExemptions[
+        DetailedExemptionFieldsEnum["80CCD_2-Govt Employee"]
+      ]?.isMonthly
+        ? 0.14
+        : 0.1;
       if (title === ExemptionFieldsEnum["80CCD_2_"]) {
         const salaryBasicDA = income["Salary (Basic + DA)"];
         return Math.floor(
           percent *
             ((Number(salaryBasicDA?.value) || 0) *
-              (salaryBasicDA.isMonthly ? 12 : 1))
+              (salaryBasicDA?.isMonthly ? 12 : 1))
         );
+      } else if (title === ExemptionFieldsEnum["80DD"]) {
+        const severe =
+          detailedExemptions[
+            DetailedExemptionFieldsEnum["80DD-severe disability"]
+          ]?.isMonthly;
+        return severe ? 1_25_000 : 75_000;
       }
       return null;
     },
-    [income]
+    [detailedExemptions, income]
   );
 
   const getDetailedModal = (field: ExemptionFieldsEnum) => {
@@ -113,15 +127,16 @@ function ExemptionsTab() {
       case ExemptionFieldsEnum["80DD"]:
         return <DetailedModal80DD onCancel={close} />;
     }
-    return null;
   };
 
   return (
     <table className="table-fixed income-table w-full mt-4 mb-8 text-left">
       <thead>
         <tr className="bg-orange-600 text-white">
-          <td colSpan={2}>Total Exemptions & deductions</td>
-          <td className="text-right">{totalExemptions}</td>
+          <td colSpan={2}>Total Exemptions & Deductions</td>
+          <td data-testid="Total Exemptions" className="text-right">
+            {totalExemptions}
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -129,6 +144,7 @@ function ExemptionsTab() {
           <td>HRA</td>
           <td>
             <Toggle
+              testId={ExemptionFieldsEnum["Is metro city"]}
               isEnabled={exemptions[ExemptionFieldsEnum["Is metro city"]]}
               onChange={(value: boolean) => {
                 changeField(ExemptionFieldsEnum["Is metro city"], value);
@@ -150,6 +166,7 @@ function ExemptionsTab() {
           </td>
           <td>
             <Input
+              testId={ExemptionFieldsEnum["Rent paid"]}
               value={getFieldValue(ExemptionFieldsEnum["Rent paid"])}
               onChange={(value) => {
                 changeField(ExemptionFieldsEnum["Rent paid"], value);
@@ -164,7 +181,9 @@ function ExemptionsTab() {
               text="House Rent Paid - 10% of Basic + DA"
             />
           </td>
-          <td>{currencyFormat(hra.A_10perBaseAndDA)}</td>
+          <td data-testid="House Rent Paid - 10% of Basic + DA">
+            {currencyFormat(hra.A_10perBaseAndDA)}
+          </td>
         </tr>
         <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
@@ -174,13 +193,17 @@ function ExemptionsTab() {
               ${isMetroCity ? "" : " Non "} Metros`}
             />
           </td>
-          <td>{currencyFormat(hra.B_50PerBaseAndDA)}</td>
+          <td data-testid={"Basic + DA in city"}>
+            {currencyFormat(hra.B_50PerBaseAndDA)}
+          </td>
         </tr>
         <tr className="bg-gray-200">
           <td colSpan={2} className="text-right">
             <WithTick if={hra.current === 2} text="HRA Received" />
           </td>
-          <td>{currencyFormat(hra.HRAReceived)}</td>
+          <td data-testid={"HRA Received"}>
+            {currencyFormat(hra.HRAReceived)}
+          </td>
         </tr>
 
         {EXEMPTIONS.map(
@@ -191,10 +214,11 @@ function ExemptionsTab() {
             isDisabled,
             details,
             hasModal = false,
+            info = null,
           }) => (
             <tr key={title}>
               <td>
-                <Description title={title} details={details} />
+                <Description info={info} title={title} details={details} />
               </td>
               <td>
                 <ProgressBar
@@ -206,6 +230,7 @@ function ExemptionsTab() {
               <td>
                 <div className="flex justify-between items-center gap-2">
                   <Input
+                    testId={title}
                     disabled={isDisabled}
                     value={value ?? getFieldValue(title)}
                     onChange={(value) => {
@@ -215,6 +240,7 @@ function ExemptionsTab() {
                   />
                   {hasModal && (
                     <CgMoreR
+                      data-testid={"exemption-details-" + title}
                       onClick={() => setDetailedModal(title)}
                       size={"2em"}
                       className="cursor-pointer"

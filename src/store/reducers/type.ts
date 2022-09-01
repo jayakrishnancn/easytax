@@ -1,3 +1,4 @@
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { IncomeFieldsEnum } from "../../enum/incomeFields";
 import { initialDefaultState } from "../../services/exemptions";
 import { IncomeFields } from "../../type/income";
@@ -44,9 +45,9 @@ export type ChangeExemptionFieldAction = {
 
 export type ChangeDetailedExemptionFieldAction = {
   payload: {
-    field: string;
+    field: DetailedExemptionFieldsEnum;
     value?: number;
-    year?: string;
+    year: string;
     isMonthly?: boolean;
   };
   type: string;

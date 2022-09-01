@@ -7,10 +7,10 @@ class HRA {
   rentPaid = 0;
 
   constructor(
-    baseAndDA = 0,
-    HRAReceived = 0,
-    rentPaidPermonth = 0,
-    isMetro = false
+    baseAndDA: number,
+    HRAReceived: number,
+    rentPaidPermonth: number,
+    isMetro: boolean
   ) {
     const rentPaid = rentPaidPermonth * 12;
     this.baseAndDA = baseAndDA;

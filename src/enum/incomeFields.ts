@@ -6,5 +6,4 @@ export enum IncomeFieldsEnum {
   businessAndProfession = "Business And Profession",
   CapitalGains = "Capital Gains",
   other = "other",
-  govtEmployee = "Govt Employee",
 }

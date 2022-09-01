@@ -5,6 +5,10 @@ import { ExemptionsType } from "../../store/reducers/type";
 export const calculateTotalExemptions = (fields: ExemptionsType) => {
   return (
     Object.keys(fields).reduce((acc: number, key: any) => {
+      const income = fields[key as keyof typeof fields];
+      if (typeof income !== "number") {
+        return acc;
+      }
       if (
         [
           ExemptionFieldsEnum["Is metro city"] as string,
@@ -15,11 +19,6 @@ export const calculateTotalExemptions = (fields: ExemptionsType) => {
         return acc;
       }
 
-      const income = fields[key as keyof typeof fields];
-
-      if (typeof income !== "number") {
-        return acc;
-      }
       return acc + (Number(income) || 0);
     }, 0) + STANDARD_DEDUCTION.value
   );

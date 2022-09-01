@@ -17,12 +17,26 @@ export const EXEMPTIONS: Exemption[] = [
     details: "LIC,PPF,EPF,NPS",
     hasModal: true,
     max: 1_50_000,
+    info: "Investments in Provident Funds such as EPF, PPF, etc., payment made towards life insurance premiums, Equity Linked Saving Schemes, payment made towards the principal sum of a home loan, SSY, NSC, SCSS, etc.\n Max limit : 1,50,000",
   },
   {
     title: ExemptionFieldsEnum["80DD"],
     details: "Disabled Dependant Maintenance",
-    max: 1_25_000,
+    max: 75_000,
     hasModal: true,
+    info: `Dependant person with disability – A dependant person with disability is one who has at least 40% of any of the specified disability. The family member who takes care of the medical charges of the dependant person with disability can claim tax deduction of up to Rs. 75,000.
+
+    Dependant person with severe disability – A dependant person with severe disability is one who has at least 80% of any disability. The family member handling the medical expenses of dependant person with severe disability can claim tax deduction of up to Rs. 1,25,000.
+    
+    The following documents will have to be submitted to claim tax benefits under Section 80DD of the Income Tax Act, 1961:
+
+Medical Certificate: To claim tax deduction under Section 80DD, the taxpayer will have to submit a copy of the medical certificate, which authenticates the disability of the dependant.
+
+Form 10-IA: If the disabled dependant is suffering from autism, cerebral palsy or multiple disabilities, then Form No. 10-IA has to be submitted.
+
+Self-Declaration Certificate: Taxpayers have to produce a self-declaration certificate, mentioning the expenses incurred on the medical treatment (including nursing, rehabilitation and training) of the disabled dependant.
+
+Receipts of Insurance Premium Paid: Since the self-declaration certificate will suffice for claiming most expenses, the individual is not required to preserve the actual receipts. However, if a claim is being made for the payment made towards insurance policies taken for the disabled dependant, then the actual receipts of the expenses need to be maintained.`,
   },
   {
     title: ExemptionFieldsEnum["80CCD_1B_"],

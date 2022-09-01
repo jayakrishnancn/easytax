@@ -5,8 +5,13 @@ const SLAB_DETAILS = [
   { from: 10_00_000, till: Infinity, taxPercent: 30 },
 ];
 
+const REBATE_TILL = 5_00_000;
+
 function calculateTaxOldRegime(income: number) {
   let tax = 0;
+  if (income <= REBATE_TILL) {
+    return 0;
+  }
 
   for (let slab of SLAB_DETAILS) {
     if (income < slab.from) {

@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { ExemptionFieldsEnum } from "../../enum/exemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { changeExemptionField } from "../../store/reducers/exemptionsReducer";
-import { ModalProps } from "../../type/modal";
 import { currencyFormat } from "../../util/currencyFormat";
 import DetailedModal from "../DetailedModal";
 import Input from "../Input";
@@ -12,8 +12,10 @@ import ProgressBar from "../Progressbar";
 import Toggle from "../Toggle";
 
 const MAX = 1_50_000;
-
-function DetailedModal80C(props: ModalProps) {
+interface DetailedModal80CProps {
+  onCancel: () => void;
+}
+function DetailedModal80C(props: DetailedModal80CProps) {
   const { onCancel } = props;
   const dispatch = useDispatch();
 
@@ -22,7 +24,10 @@ function DetailedModal80C(props: ModalProps) {
   );
   const year = useSelector((state: RootState) => state.year);
 
-  const handleToggleChange = (field: string, isMonthly: boolean) => {
+  const handleToggleChange = (
+    field: DetailedExemptionFieldsEnum,
+    isMonthly: boolean
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -32,7 +37,10 @@ function DetailedModal80C(props: ModalProps) {
     );
   };
 
-  const handleValueChange = (field: string, value: number) => {
+  const handleValueChange = (
+    field: DetailedExemptionFieldsEnum,
+    value: number
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -42,19 +50,39 @@ function DetailedModal80C(props: ModalProps) {
     );
   };
 
-  const _80C = useMemo(
+  const _80C = useMemo<{ id: DetailedExemptionFieldsEnum; title: string }[]>(
     () => [
-      { id: "_80C-Employee provident fund", title: "Employee provident fund" },
       {
-        id: "_80C-Equity-linked savings scheme (ELSS)",
+        id: DetailedExemptionFieldsEnum["_80C-Employee provident fund"],
+        title: "Employee provident fund",
+      },
+      {
+        id: DetailedExemptionFieldsEnum[
+          "_80C-Equity-linked savings scheme (ELSS)"
+        ],
         title: "Equity-linked savings scheme (ELSS)",
       },
-      { id: "_80C-Life insurance", title: "Life insurance" },
-      { id: "_80C-Public provident dund", title: "Public provident dund" },
-      { id: "_80C-House loan principal", title: "House loan principal" },
-      { id: "_80C-National pensoin scheme", title: "National pensoin scheme" },
-      { id: "_80C-Tuitio fees", title: "Tuitio fees" },
-      { id: "_80C-Others", title: "Others" },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Life insurance"],
+        title: "Life insurance",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Public provident dund"],
+        title: "Public provident dund",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-House loan principal"],
+        title: "House loan principal",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-National pensoin scheme"],
+        title: "National pensoin scheme",
+      },
+      {
+        id: DetailedExemptionFieldsEnum["_80C-Tuitio fees"],
+        title: "Tuitio fees",
+      },
+      { id: DetailedExemptionFieldsEnum["_80C-Others"], title: "Others" },
     ],
     []
   );
@@ -95,11 +123,13 @@ function DetailedModal80C(props: ModalProps) {
                   <tbody>
                     <tr>
                       <td className="text-right pr-2">Total</td>
-                      <td>{currencyFormat(current)}</td>
+                      <td aria-label="Total">{currencyFormat(current)}</td>
                     </tr>
                     <tr>
                       <td className="text-right pr-2">Remaining</td>
-                      <td>{currencyFormat(Math.max(0, MAX - current))}</td>
+                      <td aria-label="Remaining">
+                        {currencyFormat(Math.max(0, MAX - current))}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -109,13 +139,14 @@ function DetailedModal80C(props: ModalProps) {
         </table>
       }
     >
-      <table className="border table-fixed income-table w-full mb-8 text-left">
+      <table className="border-none table-fixed income-table w-full mb-8 text-left">
         <tbody>
           {_80C.map(({ title, id }) => (
             <tr key={id}>
               <td>{title}</td>
               <td>
                 <Toggle
+                  testId={id}
                   isEnabled={!!exemptions[id]?.isMonthly}
                   onChange={(value: boolean) => handleToggleChange(id, value)}
                   label="Monthly?"
@@ -123,7 +154,8 @@ function DetailedModal80C(props: ModalProps) {
               </td>
               <td>
                 <Input
-                  value={exemptions[id]?.value}
+                  testId={id}
+                  value={exemptions[id]?.value || 0}
                   onChange={(value: number) => handleValueChange(id, value)}
                 />
               </td>

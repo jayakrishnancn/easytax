@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { DetailedExemptionFieldsEnum } from "../../enum/detailedExemptionFields";
 import { RootState } from "../../store";
 import { changeDetailedExemptionField } from "../../store/reducers/detailedExemptionsReducer";
 import { ModalProps } from "../../type/modal";
@@ -15,7 +16,10 @@ function DetailedModal80DD(props: ModalProps) {
   const year = useSelector((state: RootState) => state.year);
   const dispatch = useDispatch();
 
-  const changeFieldMonthly = (field: string, isMonthly: boolean) => {
+  const changeFieldMonthly = (
+    field: DetailedExemptionFieldsEnum,
+    isMonthly: boolean
+  ) => {
     dispatch(
       changeDetailedExemptionField({
         field,
@@ -24,7 +28,7 @@ function DetailedModal80DD(props: ModalProps) {
       })
     );
   };
-  const FIELD = "80DD-severe disability";
+  const FIELD = DetailedExemptionFieldsEnum["80DD-severe disability"];
   const body = (
     <table className="w-full">
       <tbody>
@@ -32,6 +36,7 @@ function DetailedModal80DD(props: ModalProps) {
           <td>Disability is more than 80%?</td>
           <td className="items-center flex justify-center">
             <Toggle
+              testId={DetailedExemptionFieldsEnum["80DD-severe disability"]}
               isEnabled={!!detailedExemptions[FIELD]?.isMonthly}
               onChange={(isMonthly) => changeFieldMonthly(FIELD, isMonthly)}
               label="Yes"
@@ -45,9 +50,11 @@ function DetailedModal80DD(props: ModalProps) {
   const footer = (
     <div>
       Max Limit :{" "}
-      {currencyFormat(
-        !!detailedExemptions[FIELD]?.isMonthly ? 1_25_000 : 75_000
-      )}{" "}
+      <span data-testid="max-limit">
+        {currencyFormat(
+          !!detailedExemptions[FIELD]?.isMonthly ? 1_25_000 : 75_000
+        )}{" "}
+      </span>
     </div>
   );
 

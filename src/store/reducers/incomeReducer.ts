@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { initialDefaultState, saveIncomeData } from "../../services/income";
-import { FORMATTED_FY } from "../../util/calender";
+import { getIncomeData, saveIncomeData } from "../../services/income";
+import { getFormattedYear } from "../../util/calender";
 import { ChangeIncomeFieldAction, InitializeIncomeAction } from "./type";
 
 export const incomeSlice = createSlice({
   name: "income",
-  initialState: initialDefaultState,
+  initialState: getIncomeData(getFormattedYear()),
   reducers: {
     resetIncome(state, action: InitializeIncomeAction) {
       return { ...action.payload };
@@ -14,8 +14,8 @@ export const incomeSlice = createSlice({
       const {
         field,
         value = state[field].value,
-        isMonthly = state[field].isMonthly,
-        year = FORMATTED_FY,
+        isMonthly = state[field]?.isMonthly,
+        year = getFormattedYear(),
       } = action.payload;
       const newState = {
         ...state,

@@ -45,36 +45,26 @@ function IncomeTab() {
       <thead>
         <tr className="bg-blue-600 text-white">
           <td colSpan={2}>Total Income</td>
-          <td className="text-right">{totalIncome}</td>
+          <td aria-label="Total income" className="text-right">
+            {totalIncome}
+          </td>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colSpan={2}>
-            Are you a central or state government employee? (for 80CCD(2))
-          </td>
-          <td>
-            <Toggle
-              isEnabled={getFieldValue(IncomeFieldsEnum.govtEmployee).isMonthly}
-              onChange={(isMonthly) =>
-                changeFieldMonthly(IncomeFieldsEnum.govtEmployee, isMonthly)
-              }
-              label="Yes"
-            />
-          </td>
-        </tr>
         {Object.values(IncomeFieldsEnum).map((field) => (
           <tr key={field}>
             <td> {field}</td>
             <td>
               <Toggle
-                isEnabled={getFieldValue(field).isMonthly}
+                testId={field}
+                isEnabled={getFieldValue(field)?.isMonthly}
                 onChange={(isMonthly) => changeFieldMonthly(field, isMonthly)}
                 label="Monthly?"
               />
             </td>
             <td>
               <Input
+                testId={field}
                 value={getFieldValue(field).value}
                 onChange={(value) => {
                   changeField(field, value);
