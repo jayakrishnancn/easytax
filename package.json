@@ -62,7 +62,9 @@
     "coveragePathIgnorePatterns": [
       "./src/index.tsx",
       "./src/reportWebVitals.ts",
-      "./src/testutils/*"
+      "./src/testutils/*",
+      "./src/service-worker.ts",
+      "./src/serviceWorkerRegistration.ts"
     ],
     "resetMocks": false,
     "coverageThreshold": {
