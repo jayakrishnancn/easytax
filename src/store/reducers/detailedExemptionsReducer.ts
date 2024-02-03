@@ -39,11 +39,17 @@ export const detailedExemptionsSlice = createSlice({
       saveExemptionData(newState, year, STORE_KEYS.DetailedExemptions);
       return newState;
     },
+    clearDetailedExemption: ()  => {
+      return getDetailedExemptionData(
+        getFormattedYear(),
+        STORE_KEYS.DetailedExemptions
+      )
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeDetailedExemptionField, resetDeailedExemptions } =
+export const { changeDetailedExemptionField, resetDeailedExemptions, clearDetailedExemption } =
   detailedExemptionsSlice.actions;
 
 export default detailedExemptionsSlice.reducer;
