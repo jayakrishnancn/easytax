@@ -9,7 +9,8 @@ import { clearExemptionData } from "./store/reducers/exemptionsReducer";
 import { clearIncomeData } from "./store/reducers/incomeReducer";
 
 function App() {
-  const [showSplashScreen, setShowSplashScreen] = useState(true);
+  const hasPreviousDataInLocalStorage = localStorage && JSON.stringify(localStorage).length > 10
+  const [showSplashScreen, setShowSplashScreen] = useState( hasPreviousDataInLocalStorage);
   const dispatch = useDispatch();
 
   const handleClose = () => {
