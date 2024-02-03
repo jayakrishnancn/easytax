@@ -19,11 +19,14 @@ export const exemptionsSlice = createSlice({
       saveExemptionData(newState, year);
       return newState;
     },
+    clearExemptionData(){
+      return getExemptionData(getFormattedYear())
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeExemptionField, resetExemptions } =
+export const { changeExemptionField, resetExemptions , clearExemptionData } =
   exemptionsSlice.actions;
 
 export default exemptionsSlice.reducer;

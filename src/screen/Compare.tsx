@@ -11,6 +11,7 @@ import { calculateTotalIncome } from "../util/incomeUtils";
 function Compare() {
   const income = useSelector((store: RootState) => store.income);
   const exemptions = useSelector((store: RootState) => store.exemptions);
+  const financialYear = useSelector((store: RootState)=> store.year);
   const [taxInOldRegime, setTaxInOldRegime] = useState<number>(0);
   const [taxInNewRegime, setTaxInNewRegime] = useState<number>(0);
   const [saveAmount, setSaveAmount] = useState<string>("0");
@@ -18,12 +19,13 @@ function Compare() {
     const totalIncome = calculateTotalIncome(income);
     const totalExemptions = calculateTotalExemptions(exemptions);
     const _old = calculateTaxOldRegime(totalIncome - totalExemptions);
-    const _new = calculateTaxNewRegime(totalIncome);
+    const fy : number = Number(financialYear.slice(3,7)) || 2020
+    const _new = calculateTaxNewRegime(totalIncome, fy);
     setTaxInOldRegime(_old);
     setTaxInNewRegime(_new);
 
     setSaveAmount(currencyFormat(Math.abs(_new - _old)));
-  }, [exemptions, income]);
+  }, [exemptions, income, financialYear]);
   const tick = (
     <div className="-top-2 -right-2 absolute ">
       <Tick />

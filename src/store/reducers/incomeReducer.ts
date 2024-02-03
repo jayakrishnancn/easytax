@@ -24,10 +24,13 @@ export const incomeSlice = createSlice({
       saveIncomeData(newState, year);
       return newState;
     },
+    clearIncomeData(){
+      return getIncomeData(getFormattedYear())
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeIncomeField, resetIncome } = incomeSlice.actions;
+export const { changeIncomeField, resetIncome, clearIncomeData } = incomeSlice.actions;
 
 export default incomeSlice.reducer;
